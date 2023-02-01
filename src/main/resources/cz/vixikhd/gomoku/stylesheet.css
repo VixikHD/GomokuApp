@@ -1,0 +1,19 @@
+.button .text {
+    -fx-font-family: 'Rubik Mono One';
+    -fx-font-size: 30;
+}
+
+.button:hover {
+    -fx-background-color: rgb(193, 193, 193);
+    -fx-cursor: hand;
+}
+
+.button {
+    -fx-background-color: rgb(202, 202, 202);
+    -fx-text-fill: rgb(51, 51, 51);
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-unit-increment: 20 ;
+    -fx-block-increment: 100 ;
+}
