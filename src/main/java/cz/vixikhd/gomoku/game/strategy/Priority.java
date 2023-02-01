@@ -23,11 +23,15 @@ public class Priority {
             return this.type.compareWith(priority.type);
         }
 
-        if(this.priority < priority.priority) {
+        if(this.priority > priority.priority) {
             return 1;
         }
 
         return -1;
+    }
+
+    public String toString() {
+        return "Priority(" + this.priority + ", " + (this.type.equals(Type.WIN_PRIORITY) ? "W" : "L") +  ")";
     }
 
     public enum Type {
@@ -39,9 +43,9 @@ public class Priority {
                 return 0;
             }
             if(this.equals(WIN_PRIORITY)) {
-                return 1;
+                return -1;
             }
-            return -1;
+            return 1;
         }
     }
 }

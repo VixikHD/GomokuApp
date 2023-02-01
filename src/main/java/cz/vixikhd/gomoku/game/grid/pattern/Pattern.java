@@ -66,9 +66,9 @@ public class Pattern {
         Board board = new Board(new Vector2i(variation[0].length, variation.length), 30, 5, null);
         for(int y = 0; y < variation.length; ++y) {
             for(int x = 0; x < variation[y].length; ++x) {
-                if(variation[y][x].equals(PatternSymbol.SYMBOL_PLAYER)) {
+                if(variation[y][x].type().equals(PatternSymbolType.SYMBOL_PLAYER)) {
                     board.setSymbolAt(x, y, Symbol.O);
-                } else if(variation[y][x].equals(PatternSymbol.SYMBOL_OPPONENT)) {
+                } else if(variation[y][x].type().equals(PatternSymbolType.SYMBOL_OPPONENT)) {
                     board.setSymbolAt(x, y, Symbol.X);
                 }
             }
@@ -99,7 +99,7 @@ public class Pattern {
         StringBuilder hash = new StringBuilder();
         for(PatternSymbol[] patternSymbols : pattern) {
             for(PatternSymbol patternSymbol : patternSymbols) {
-                hash.append(patternSymbol.getName());
+                hash.append(patternSymbol.type().getName());
             }
             hash.append("//");
         }
@@ -185,38 +185,7 @@ public class Pattern {
         return this.description;
     }
 
-    public enum PatternSymbol {
-        SYMBOL_PLAYER(0, 'P', new Symbol[] {Symbol.X}, new Symbol[] {Symbol.O}),
-        SYMBOL_OPPONENT(1, 'O', new Symbol[] {Symbol.O}, new Symbol[] {Symbol.X}),
-        SYMBOL_NONE(2, 'N', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE}),
-        SYMBOL_ANY(3, 'A', new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}, new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}),
-        SYMBOL_NOT_OPPONENT(4, 'X', new Symbol[] {Symbol.X, Symbol.NONE}, new Symbol[] {Symbol.O, Symbol.NONE}),
-        SYMBOL_OPPONENT_NONE(5, 'M', new Symbol[] {Symbol.O, Symbol.NONE}, new Symbol[] {Symbol.X, Symbol.NONE}),
-        PLACE_FOR_OUTPLAY(6, 'R', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE});
-
-        final private int id;
-        final private char name;
-
-        final private List<Symbol> acceptedSymbolsForX;
-        final private List<Symbol> acceptedSymbolsForO;
-
-        PatternSymbol(int id, char name, Symbol[] acceptedSymbolsForX, Symbol[] acceptedSymbolsForO) {
-            this.id = id;
-            this.name = name;
-            this.acceptedSymbolsForX = Arrays.asList(acceptedSymbolsForX);
-            this.acceptedSymbolsForO = Arrays.asList(acceptedSymbolsForO);
-        }
-
-        public static PatternSymbol parsePatternSymbol(char name) {
-            for(PatternSymbol symbol : PatternSymbol.class.getEnumConstants()) {
-                if(symbol.getName() == name) {
-                    return symbol;
-                }
-            }
-
-            throw new IllegalArgumentException("Invalid name given");
-        }
-
+    public record PatternSymbol(PatternSymbolType type, int priority) {
         /**
          * Placeholders:
          * <p></p>
@@ -234,10 +203,54 @@ public class Pattern {
             for(int y = 0; y < grid.length; ++y) {
                 symbolGrid[y] = new PatternSymbol[grid[y].length];
                 for(int x = 0; x < grid[y].length; ++x) {
-                    symbolGrid[y][x] = PatternSymbol.parsePatternSymbol(grid[y][x]);
+                    int priority = -1;
+                    if(grid[y][x] >= '0' && grid[y][x] <= '9') {
+                        priority = grid[y][x] - '0';
+                    }
+                    
+                    symbolGrid[y][x] = new PatternSymbol(PatternSymbolType.parsePatternSymbol(grid[y][x]), priority);
                 }
             }
             return symbolGrid;
+        }
+    }
+    
+    public enum PatternSymbolType {
+        SYMBOL_PLAYER(0, 'P', new Symbol[] {Symbol.X}, new Symbol[] {Symbol.O}),
+        SYMBOL_OPPONENT(1, 'O', new Symbol[] {Symbol.O}, new Symbol[] {Symbol.X}),
+        SYMBOL_NONE(2, 'N', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE}),
+        SYMBOL_ANY(3, 'A', new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}, new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}),
+        SYMBOL_NOT_OPPONENT(4, 'X', new Symbol[] {Symbol.X, Symbol.NONE}, new Symbol[] {Symbol.O, Symbol.NONE}),
+        SYMBOL_OPPONENT_NONE(5, 'M', new Symbol[] {Symbol.O, Symbol.NONE}, new Symbol[] {Symbol.X, Symbol.NONE}),
+        PLACE_FOR_OUTPLAY(6, 'R', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE});
+
+        final private int id;
+        final private char name;
+
+        final private List<Symbol> acceptedSymbolsForX;
+        final private List<Symbol> acceptedSymbolsForO;
+
+        PatternSymbolType(int id, char name, Symbol[] acceptedSymbolsForX, Symbol[] acceptedSymbolsForO) {
+            this.id = id;
+            this.name = name;
+            
+            this.acceptedSymbolsForX = Arrays.asList(acceptedSymbolsForX);
+            this.acceptedSymbolsForO = Arrays.asList(acceptedSymbolsForO);
+        }
+
+        public static PatternSymbolType parsePatternSymbol(char name) {
+            if(name >= '0' && name <= '9') {
+                return PatternSymbolType.PLACE_FOR_OUTPLAY;
+//                return PatternSymbolType.PLACE_FOR_OUTPLAY.setPriority(name - '0');
+            }
+            
+            for(PatternSymbolType symbol : PatternSymbolType.class.getEnumConstants()) {
+                if(symbol.getName() == name) {
+                    return symbol;
+                }
+            }
+
+            throw new IllegalArgumentException("Invalid name given");
         }
 
         public boolean accepts(Symbol symbol, Symbol player) {
@@ -259,12 +272,11 @@ public class Pattern {
         }
     }
 
-    public class PatternVariation {
+    public static class PatternVariation {
         final private String hash;
         final private PatternSymbol[][] symbols;
 
         private final List<Vector2i> outplayPositionList = new ArrayList<>();
-
 
         public PatternVariation(String hash, PatternSymbol[][] symbols) {
             this.hash = hash;
@@ -276,10 +288,26 @@ public class Pattern {
         private void calculateOutplayPositionList() {
             for(int y = 0; y < this.symbols.length; ++y) {
                 for(int x = 0; x < this.symbols[y].length; ++x) {
-                    if(this.symbols[y][x].equals(PatternSymbol.PLACE_FOR_OUTPLAY))
+                    if(this.symbols[y][x].type().equals(PatternSymbolType.PLACE_FOR_OUTPLAY))
                         this.outplayPositionList.add(new Vector2i(x, y));
                 }
             }
+        }
+
+        public PatternSymbol getSymbol(Vector2i position) {
+            return this.getSymbolAt(position.getX(), position.getY());
+        }
+
+        public PatternSymbol getSymbolAt(int x, int y) {
+            if(!this.validateSymbolPosition(x, y)) {
+                throw new IllegalArgumentException("Coordinates are out of bounds");
+            }
+
+            return this.symbols[y][x];
+        }
+
+        private boolean validateSymbolPosition(int x, int y) {
+            return y >= 0 && y < this.symbols.length && x >= 0 && x < this.symbols[y].length;
         }
 
         public String getHash() {

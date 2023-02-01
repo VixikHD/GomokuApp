@@ -24,7 +24,7 @@ public class Grid implements GridInterface {
         for(int x = 0; x <= row.length - pattern.length; ++x) {
             boolean found = true;
             for(int i = 0; i < pattern.length; ++i) {
-                if(!pattern[i].accepts(row[x + i], player)) {
+                if(!pattern[i].type().accepts(row[x + i], player)) {
                     found = false;
                     break;
                 }

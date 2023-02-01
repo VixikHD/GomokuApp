@@ -10,7 +10,6 @@ import cz.vixikhd.gomoku.math.Vector2i;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -71,11 +70,11 @@ public class PatternBrowserHandler {
             Board board = new Board(new Vector2i(symbols[0].length, symbols.length), 30, 5, null);
             for(int y = 0; y < symbols.length; ++y) {
                 for(int x = 0; x < symbols[y].length; ++x) {
-                    if(symbols[y][x].equals(Pattern.PatternSymbol.SYMBOL_PLAYER)) {
+                    if(symbols[y][x].type().equals(Pattern.PatternSymbolType.SYMBOL_PLAYER)) {
                         board.setSymbolAt(x, y, Symbol.X);
-                    } else if(symbols[y][x].equals(Pattern.PatternSymbol.SYMBOL_OPPONENT)) {
+                    } else if(symbols[y][x].type().equals(Pattern.PatternSymbolType.SYMBOL_OPPONENT)) {
                         board.setSymbolAt(x, y, Symbol.O);
-                    } else if(symbols[y][x].equals(Pattern.PatternSymbol.PLACE_FOR_OUTPLAY)) {
+                    } else if(symbols[y][x].type().equals(Pattern.PatternSymbolType.PLACE_FOR_OUTPLAY)) {
                         board.setSymbolAt(x, y, Symbol.X);
                         board.setCellHighlightedAt(x, y);
                     }

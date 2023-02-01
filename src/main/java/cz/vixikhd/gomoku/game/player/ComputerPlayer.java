@@ -5,13 +5,14 @@ import cz.vixikhd.gomoku.game.SituatedSymbol;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
-import cz.vixikhd.gomoku.game.grid.pattern.Pattern;
 import cz.vixikhd.gomoku.game.grid.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.strategy.PriorityCalculator;
 import cz.vixikhd.gomoku.math.Vector2i;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ComputerPlayer extends Player {
     public ComputerPlayer(Symbol symbol) {
@@ -85,46 +86,18 @@ public class ComputerPlayer extends Player {
         return finalPosition;
     }
 
-    protected Vector2i doDefensivePatternMove(Grid grid, List<Pattern> patternCollection) {
-        for(Pattern pattern : patternCollection) {
-            List<Grid.MatchedPattern> matchedPatterns = grid.matchPattern(this.symbol, pattern);
-
-            if(matchedPatterns.isEmpty()) {
-                continue;
-            }
-
-            Grid.MatchedPattern randomMatchedPattern = matchedPatterns.get(Game.getRandom().nextInt(matchedPatterns.size()));
-
-            Pattern.PatternVariation variation = randomMatchedPattern.variation();
-            Vector2i randomOutplayPosition = variation.getOutplayPositionList().get(Game.getRandom().nextInt(variation.getOutplayPositionList().size()));
-
-            System.out.println("Matched defensive pattern from " + randomMatchedPattern.start() + " to " + randomMatchedPattern.end() + "outplay position " + randomMatchedPattern.start().addVector(randomOutplayPosition));
-
-            return randomMatchedPattern.start().addVector(randomOutplayPosition);
-        }
-
-        return null;
-    }
-
-    protected Vector2i doOffensivePatternMove(Grid grid, List<Pattern> patternCollection) {
-        for(Pattern pattern : patternCollection) {
-            List<Grid.MatchedPattern> matchedPatterns = grid.matchPattern(this.symbol, pattern);
-
-            if(matchedPatterns.isEmpty()) {
-                continue;
-            }
-
-            Grid.MatchedPattern randomMatchedPattern = matchedPatterns.get(Game.getRandom().nextInt(matchedPatterns.size()));
-
-            Pattern.PatternVariation variation = randomMatchedPattern.variation();
-            Vector2i randomOutplayPosition = variation.getOutplayPositionList().get(Game.getRandom().nextInt(variation.getOutplayPositionList().size()));
-
-            System.out.println("Matched offensive pattern from " + randomMatchedPattern.start() + " to " + randomMatchedPattern.end() + "outplay position " + randomMatchedPattern.start().addVector(randomOutplayPosition));
-
-            return randomMatchedPattern.start().addVector(randomOutplayPosition);
-        }
-
-        return null;
+    protected Vector2i doPatternMove(Grid grid) {
+        return PriorityCalculator.calculateBestMove(
+            PatternManager.getDefensivePatterns().stream()
+                .map(pattern -> grid.matchPattern(this.getSymbol(), pattern))
+                .flatMap(List::stream)
+                .collect(Collectors.toList()
+            ),
+            PatternManager.getOffensivePatterns().stream()
+                .map(pattern -> grid.matchPattern(this.getSymbol(), pattern))
+                .flatMap(List::stream)
+                .collect(Collectors.toList())
+        );
     }
 
     protected Vector2i doMove(Grid grid) {
@@ -133,11 +106,7 @@ public class ComputerPlayer extends Player {
         }
 
         Vector2i position;
-        if((position = this.doDefensivePatternMove(grid, PatternManager.getDefensivePatterns())) != null) {
-            return position;
-        }
-
-        if((position = this.doOffensivePatternMove(grid, PatternManager.getOffensivePatterns())) != null) {
+        if((position = this.doPatternMove(grid)) != null) {
             return position;
         }
 

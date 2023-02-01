@@ -112,60 +112,69 @@ public class PatternManager {
             {'A', 'A', 'A', 'A', 'N', 'A'},
         })));
 
-        // TODO
         defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'N', 'O', '2'},
-            {'A', 'A', 'A', 'O'},
-            {'A', 'A', 'A', 'O'},
-            {'A', 'A', 'A', 'N'},
+            {'A', 'A', 'A', 'A', 'N', 'A'},
+            {'N', 'O', 'N', 'O', '2', 'N'},
+            {'A', 'A', 'A', 'A', 'O', 'A'},
+            {'A', 'A', 'A', 'A', 'O', 'A'},
+            {'A', 'A', 'A', 'A', 'N', 'A'},
         })));
         defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'N', 'O', '2'},
-            {'A', 'A', 'A', 'O'},
-            {'A', 'A', 'A', 'N'},
-            {'A', 'A', 'A', 'O'},
+            {'A', 'A', 'A', 'A', 'N', 'A'},
+            {'N', 'O', 'N', 'O', '2', 'N'},
+            {'A', 'A', 'A', 'A', 'O', 'A'},
+            {'A', 'A', 'A', 'A', 'N', 'A'},
+            {'A', 'A', 'A', 'A', 'O', 'A'},
+            {'A', 'A', 'A', 'A', 'N', 'A'},
         })));
 
         // Two and Two (D + V)
         defensivePatterns.add(new Pattern("Two And Two (4. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', '2'},
-            {'A', 'O', 'O'},
-            {'O', 'A', 'O'},
+            {'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'O', 'O', 'A'},
+            {'A', 'O', 'A', 'O', 'A'},
+            {'N', 'A', 'A', 'N', 'A'},
         })));
         defensivePatterns.add(new Pattern("Two And Two (5. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', '2'},
-            {'A', 'A', 'O', 'N'},
-            {'A', 'O', 'A', 'O'},
-            {'X', 'A', 'A', 'O'},
-            {'A', 'A', 'A', 'X'}
+            {'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'O', 'N', 'A'},
+            {'A', 'O', 'A', 'O', 'A'},
+            {'N', 'A', 'A', 'O', 'A'},
+            {'A', 'A', 'A', 'N', 'A'}
         })));
         defensivePatterns.add(new Pattern("Two And Two (6. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', '2'},
-            {'A', 'A', 'A', 'N', 'O'},
-            {'A', 'A', 'O', 'A', 'O'},
-            {'A', 'O', 'A', 'A', 'X'},
-            {'X', 'A', 'A', 'A', 'A'}
+            {'A', 'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'A', 'N', 'O', 'A'},
+            {'A', 'A', 'O', 'A', 'O', 'A'},
+            {'A', 'O', 'A', 'A', 'N', 'A'},
+            {'N', 'A', 'A', 'A', 'A', 'A'}
         })));
         defensivePatterns.add(new Pattern("Two And Two (7. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', '2'},
-            {'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'O', 'A', 'O'},
-            {'A', 'O', 'A', 'A', 'O'},
-            {'X', 'A', 'A', 'A', 'X'}
+            {'A', 'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'A', 'N', 'N', 'A'},
+            {'A', 'A', 'O', 'A', 'O', 'A'},
+            {'A', 'O', 'A', 'A', 'O', 'A'},
+            {'N', 'A', 'A', 'A', 'N', 'A'}
         })));
         defensivePatterns.add(new Pattern("Two And Two (8. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', '2'},
-            {'A', 'A', 'A', 'O', 'N'},
-            {'A', 'A', 'N', 'A', 'O'},
-            {'A', 'O', 'A', 'A', 'O'},
-            {'X', 'A', 'A', 'A', 'X'}
+            {'A', 'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'A', 'O', 'N', 'A'},
+            {'A', 'A', 'N', 'A', 'O', 'A'},
+            {'A', 'O', 'A', 'A', 'O', 'A'},
+            {'N', 'A', 'A', 'A', 'N', 'A'}
         })));
         defensivePatterns.add(new Pattern("Two And Two (9. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', '2'},
-            {'A', 'A', 'A', 'N', 'O'},
-            {'A', 'A', 'O', 'A', 'N'},
-            {'A', 'O', 'A', 'A', 'O'},
-            {'X', 'A', 'A', 'A', 'X'}
+            {'A', 'A', 'A', 'A', 'N', 'N'},
+            {'A', 'A', 'A', 'A', '2', 'A'},
+            {'A', 'A', 'A', 'N', 'O', 'A'},
+            {'A', 'A', 'O', 'A', 'N', 'A'},
+            {'A', 'O', 'A', 'A', 'O', 'A'},
+            {'N', 'A', 'A', 'A', 'N', 'A'}
         })));
 
         // 3 + 3
@@ -177,58 +186,62 @@ public class PatternManager {
     private static void loadOffensivePatterns() {
         // Four in row -> Five
         offensivePatterns.add(new Pattern("Four in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'P', 'P', 'P', '2'}
+            {'P', 'P', 'P', 'P', '0'}
         })));
         offensivePatterns.add(new Pattern("Four in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
             {'P', 'A', 'A', 'A', 'A'},
             {'A', 'P', 'A', 'A', 'A'},
             {'A', 'A', 'P', 'A', 'A'},
             {'A', 'A', 'A', 'P', 'A'},
-            {'A', 'A', 'A', 'A', 'R'}
+            {'A', 'A', 'A', 'A', '0'}
         })));
         // Three plus one
         offensivePatterns.add(new Pattern("Three plus one", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'P', 'P', 'R', 'P'}
+            {'P', 'P', 'P', '0', 'P'}
         })));
         offensivePatterns.add(new Pattern("Three plus one", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
             {'P', 'A', 'A', 'A', 'A'},
             {'A', 'P', 'A', 'A', 'A'},
             {'A', 'A', 'P', 'A', 'A'},
-            {'A', 'A', 'A', 'R', 'A'},
+            {'A', 'A', 'A', '0', 'A'},
             {'A', 'A', 'A', 'A', 'P'}
         })));
         // Two plus two
         offensivePatterns.add(new Pattern("Two plus two", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'P', 'R', 'P', 'P'}
+            {'P', 'P', '0', 'P', 'P'}
         })));
         offensivePatterns.add(new Pattern("Diagonal two plus two", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
             {'P', 'A', 'A', 'A', 'A'},
             {'A', 'P', 'A', 'A', 'A'},
-            {'A', 'A', 'R', 'A', 'A'},
+            {'A', 'A', '0', 'A', 'A'},
             {'A', 'A', 'A', 'P', 'A'},
             {'A', 'A', 'A', 'A', 'P'}
         })));
 
         // Open three -> Four
         offensivePatterns.add(new Pattern("Open three in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'R', 'P', 'P', 'P', 'R'}
+            {'N', '1', 'P', 'P', 'P', '1', 'N'}
         })));
         offensivePatterns.add(new Pattern("Four in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'R', 'A', 'A', 'A', 'A'},
-            {'A', 'P', 'A', 'A', 'A'},
-            {'A', 'A', 'P', 'A', 'A'},
-            {'A', 'A', 'A', 'P', 'A'},
-            {'A', 'A', 'A', 'A', 'R'}
+            {'N', 'A', 'A', 'A', 'A', 'A', 'A'},
+            {'A', '1', 'A', 'A', 'A', 'A', 'A'},
+            {'A', 'A', 'P', 'A', 'A', 'A', 'A'},
+            {'A', 'A', 'A', 'P', 'A', 'A', 'A'},
+            {'A', 'A', 'A', 'A', 'P', 'A', 'A'},
+            {'A', 'A', 'A', 'A', 'A', '1', 'A'},
+            {'A', 'A', 'A', 'A', 'A', 'A', 'N'}
         })));
 
         offensivePatterns.add(new Pattern("Open three in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'P', 'R', 'P'}
+            {'N', 'P', 'P', '1', 'P', 'N'}
         })));
         offensivePatterns.add(new Pattern("Four in row", "Finish opened, or half opened four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'A', 'A', 'A'},
-            {'A', 'P', 'A', 'A'},
-            {'A', 'A', 'R', 'A'},
-            {'A', 'A', 'A', 'P'}
+            {'N', 'A', 'A', 'A', 'A', 'A'},
+            {'A', 'P', 'A', 'A', 'A', 'A'},
+            {'A', 'A', 'P', 'A', 'A', 'A'},
+            {'A', 'A', 'A', '1', 'A', 'A'},
+            {'A', 'A', 'A', 'A', 'P', 'A'},
+            {'A', 'A', 'A', 'A', 'A', 'N'}
         })));
     }
 
