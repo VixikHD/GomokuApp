@@ -16,6 +16,14 @@ public class Vector2i {
         return new Vector2i(this.x + x, this.y + y);
     }
 
+    public Vector2i subtractVector(Vector2i vector) {
+        return this.subtract(vector.getX(), vector.getY());
+    }
+
+    public Vector2i subtract(int x, int y) {
+        return new Vector2i(this.x - x, this.y - y);
+    }
+
     public int getX() {
         return this.x;
     }

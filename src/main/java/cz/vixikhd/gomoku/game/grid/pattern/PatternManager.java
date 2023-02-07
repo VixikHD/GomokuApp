@@ -1,5 +1,7 @@
 package cz.vixikhd.gomoku.game.grid.pattern;
 
+import cz.vixikhd.gomoku.math.Vector2i;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,107 +82,225 @@ public class PatternManager {
             {'A', 'A', 'A', 'A', 'A', 'N'},
         })));
 
-        // Two And Two (H + V)
-        defensivePatterns.add(new Pattern("Two And Two (1. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'O', '2', 'N'},
-            {'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'N', 'A'},
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (2. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'O', 'N', '2', 'N'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'O', 'N', '2', 'N'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'N', 'O', '2', 'N'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-        })));
+        // ----------------------
+        // Merged Patterns
+        // ----------------------
 
-        defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'N', 'O', '2', 'N'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (3. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'N', 'O', 'N', 'O', '2', 'N'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'N', 'A'},
-        })));
+        char[][][] parts = new char[][][] {
+            {
+                {'N'},
+                {'$'},
+                {'O'},
+                {'O'},
+                {'N'}
+            },
+            {
+                {'N'},
+                {'$'},
+                {'N'},
+                {'O'},
+                {'O'},
+                {'N'}
+            },
+            {
+                {'N'},
+                {'$'},
+                {'O'},
+                {'N'},
+                {'O'},
+                {'N'}
+            },
+            {
+                {'N'},
+                {'O'},
+                {'$'},
+                {'O'},
+                {'N'}
+            },
+            {
+                {'N'},
+                {'O'},
+                {'$'},
+                {'N'},
+                {'O'},
+                {'N'}
+            },
+            {
+                {'N', '$', 'O', 'O', 'N'},
+            },
+            {
+                {'N', '$', 'N', 'O', 'O', 'N'},
+            },
+            {
+                {'N', '$', 'O', 'N', 'O', 'N'},
+            },
+            {
+                {'N', 'O', '$', 'O', 'N'},
+            },
+            {
+                {'N', 'O', '$', 'N', 'O', 'N'},
+            },
+            {
+                {'N', 'A', 'A', 'A', 'A'},
+                {'A', '$', 'A', 'A', 'A'},
+                {'A', 'A', 'O', 'A', 'A'},
+                {'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', 'A', 'N'}
+            },
+            {
+                {'N', 'A', 'A', 'A', 'A', 'A'},
+                {'A', '$', 'A', 'A', 'A', 'A'},
+                {'A', 'A', 'O', 'A', 'A', 'A'},
+                {'A', 'A', 'A', 'N', 'A', 'A'},
+                {'A', 'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', 'A', 'A', 'N'}
+            },
+            {
+                {'N', 'A', 'A', 'A', 'A', 'A'},
+                {'A', '$', 'A', 'A', 'A', 'A'},
+                {'A', 'A', 'N', 'A', 'A', 'A'},
+                {'A', 'A', 'A', 'O', 'A', 'A'},
+                {'A', 'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', 'A', 'A', 'N'}
+            },
+            {
+                {'N', 'A', 'A', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A'},
+                {'A', 'A', '$', 'A', 'A'},
+                {'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', 'A', 'N'}
+            },
+            {
+                {'N', 'A', 'A', 'A', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A', 'A'},
+                {'A', 'A', '$', 'A', 'A', 'A'},
+                {'A', 'A', 'A', 'N', 'A', 'A'},
+                {'A', 'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', 'A', 'A', 'N'}
+            },
+            {
+                {'A', 'A', 'A', 'A', 'N'},
+                {'A', 'A', 'A', '$', 'A'},
+                {'A', 'A', 'O', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A'},
+                {'N', 'A', 'A', 'A', 'A'}
+            },
+            {
+                {'A', 'A', 'A', 'A', 'A', 'N'},
+                {'A', 'A', 'A', 'A', '$', 'A'},
+                {'A', 'A', 'A', 'O', 'A', 'A'},
+                {'A', 'A', 'N', 'A', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A', 'A'},
+                {'N', 'A', 'A', 'A', 'A', 'A'}
+            },
+            {
+                {'A', 'A', 'A', 'A', 'A', 'N'},
+                {'A', 'A', 'A', 'A', '$', 'A'},
+                {'A', 'A', 'A', 'N', 'A', 'A'},
+                {'A', 'A', 'O', 'A', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A', 'A'},
+                {'N', 'A', 'A', 'A', 'A', 'A'}
+            },
+            {
+                {'A', 'A', 'A', 'A', 'N'},
+                {'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', '$', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A'},
+                {'N', 'A', 'A', 'A', 'A'}
+            },
+            {
+                {'A', 'A', 'A', 'A', 'A', 'N'},
+                {'A', 'A', 'A', 'A', 'O', 'A'},
+                {'A', 'A', 'A', '$', 'A', 'A'},
+                {'A', 'A', 'N', 'A', 'A', 'A'},
+                {'A', 'O', 'A', 'A', 'A', 'A'},
+                {'N', 'A', 'A', 'A', 'A', 'A'}
+            },
+        };
 
-        // Two and Two (D + V)
-        defensivePatterns.add(new Pattern("Two And Two (4. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'O', 'O', 'A'},
-            {'A', 'O', 'A', 'O', 'A'},
-            {'N', 'A', 'A', 'N', 'A'},
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (5. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'O', 'N', 'A'},
-            {'A', 'O', 'A', 'O', 'A'},
-            {'N', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'N', 'A'}
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (6. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'A', 'N', 'O', 'A'},
-            {'A', 'A', 'O', 'A', 'O', 'A'},
-            {'A', 'O', 'A', 'A', 'N', 'A'},
-            {'N', 'A', 'A', 'A', 'A', 'A'}
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (7. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'A', 'N', 'N', 'A'},
-            {'A', 'A', 'O', 'A', 'O', 'A'},
-            {'A', 'O', 'A', 'A', 'O', 'A'},
-            {'N', 'A', 'A', 'A', 'N', 'A'}
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (8. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'A', 'O', 'N', 'A'},
-            {'A', 'A', 'N', 'A', 'O', 'A'},
-            {'A', 'O', 'A', 'A', 'O', 'A'},
-            {'N', 'A', 'A', 'A', 'N', 'A'}
-        })));
-        defensivePatterns.add(new Pattern("Two And Two (9. Variation)", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'A', 'A', 'A', 'N', 'N'},
-            {'A', 'A', 'A', 'A', '2', 'A'},
-            {'A', 'A', 'A', 'N', 'O', 'A'},
-            {'A', 'A', 'O', 'A', 'N', 'A'},
-            {'A', 'O', 'A', 'A', 'O', 'A'},
-            {'N', 'A', 'A', 'A', 'N', 'A'}
-        })));
+        int n = 0;
+        for(int i = 0, j = parts.length - 1; i < j; ++i) {
+            for(int k = i + 1; k < parts.length; ++k) {
+                char[][] merged = PatternManager.mergePatterns(parts[i], parts[k], '$', '2');
+                if(merged == null) {
+                    continue;
+                }
 
-        // 3 + 3
-        defensivePatterns.add(new Pattern("Three And Three", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'A', 'O', 'O', 'O', 'N', '2', 'N', 'O', 'O', 'O', 'A'}
-        })));
+                defensivePatterns.add(new Pattern("Two And Two", ++n + ". Variation", Pattern.PatternSymbol.parsePatternSymbolGrid(merged)));
+            }
+        }
+    }
+
+    private static char[][] mergePatterns(char[][] pattern1, char[][] pattern2, char mergeSymbol, char mergeSymbolReplacement) {
+        Vector2i pattern1Pos = null, pattern2Pos = null;
+        int mergeX = -1, mergeY = -1;
+
+        for(int y = 0; y < pattern1.length; ++y) {
+            for(int x = 0; x < pattern1[y].length; ++x) {
+                if(pattern1[y][x] == mergeSymbol) {
+                    if(x > mergeX)
+                        mergeX = x;
+                    if(y > mergeY)
+                        mergeY = y;
+
+                    pattern1Pos = new Vector2i(x, y);
+                }
+            }
+        }
+        
+        for(int y = 0; y < pattern2.length; ++y) {
+            for(int x = 0; x < pattern2[y].length; ++x) {
+                if(pattern2[y][x] == mergeSymbol) {
+                    if(x > mergeX)
+                        mergeX = x;
+                    if(y > mergeY)
+                        mergeY = y;
+
+                    pattern2Pos = new Vector2i(x, y);
+                }
+            }
+        }
+
+        assert pattern1Pos != null;
+        assert pattern2Pos != null;
+
+        int sizeX = Math.max(pattern1Pos.getX(), pattern2Pos.getX()) + Math.max(pattern1[0].length - pattern1Pos.getX(), pattern2[0].length - pattern2Pos.getX());
+        int sizeY = Math.max(pattern1Pos.getY(), pattern2Pos.getY()) + Math.max(pattern1.length - pattern1Pos.getY(), pattern2.length - pattern2Pos.getY());
+
+        char[][] merged = new char[sizeY][sizeX];
+        for(int y = 0; y < sizeY; ++y) {
+            for(int x = 0; x < sizeX; ++x) {
+                merged[y][x] = 'A';
+            }
+        }
+
+        Vector2i motion = new Vector2i(mergeX, mergeY).subtractVector(pattern1Pos);
+
+        for(int y = 0; y < pattern1.length; ++y) {
+            for(int x = 0; x < pattern1[y].length; ++x) {
+                merged[y + motion.getY()][x + motion.getX()] = pattern1[y][x];
+            }
+        }
+
+        motion = new Vector2i(mergeX, mergeY).subtractVector(pattern2Pos);
+        for(int y = 0; y < pattern2.length; ++y) {
+            for(int x = 0; x < pattern2[y].length; ++x) {
+                char currentSymbol = merged[y + motion.getY()][x + motion.getX()];
+                if(currentSymbol != 'A' && currentSymbol != pattern2[y][x]) {
+                    if(pattern2[y][x] == 'A') {
+                        continue;
+                    }
+
+                    return null;
+                }
+
+                merged[y + motion.getY()][x + motion.getX()] = pattern2[y][x];
+            }
+        }
+
+        merged[mergeY][mergeX] = mergeSymbolReplacement;
+
+        return merged;
     }
 
     private static void loadOffensivePatterns() {
