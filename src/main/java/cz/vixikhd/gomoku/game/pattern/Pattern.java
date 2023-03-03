@@ -1,4 +1,4 @@
-package cz.vixikhd.gomoku.game.grid.pattern;
+package cz.vixikhd.gomoku.game.pattern;
 
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.graphic.Board;
@@ -220,8 +220,8 @@ public class Pattern {
         SYMBOL_OPPONENT(1, 'O', new Symbol[] {Symbol.O}, new Symbol[] {Symbol.X}),
         SYMBOL_NONE(2, 'N', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE}),
         SYMBOL_ANY(3, 'A', new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}, new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}),
-        SYMBOL_NOT_OPPONENT(4, 'X', new Symbol[] {Symbol.X, Symbol.NONE}, new Symbol[] {Symbol.O, Symbol.NONE}),
-        SYMBOL_OPPONENT_NONE(5, 'M', new Symbol[] {Symbol.O, Symbol.NONE}, new Symbol[] {Symbol.X, Symbol.NONE}),
+        SYMBOL_PLAYER_NONE(4, 'X', new Symbol[] {Symbol.X, Symbol.NONE}, new Symbol[] {Symbol.O, Symbol.NONE}),
+        SYMBOL_OPPONENT_NONE(5, 'Y', new Symbol[] {Symbol.O, Symbol.NONE}, new Symbol[] {Symbol.X, Symbol.NONE}),
         PLACE_FOR_OUTPLAY(6, 'R', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE});
 
         final private int id;
@@ -250,7 +250,7 @@ public class Pattern {
                 }
             }
 
-            throw new IllegalArgumentException("Invalid name given");
+            throw new IllegalArgumentException("Invalid symbol name given");
         }
 
         public boolean accepts(Symbol symbol, Symbol player) {

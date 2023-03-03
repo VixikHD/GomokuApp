@@ -1,0 +1,40 @@
+[
+  {
+    "name": "Three plus one",
+    "description": "Has the highest priority.",
+    "type": "Offensive",
+    "variations": [
+      [
+        "APPP0PA"
+      ],
+      [
+        "AAAAAAA",
+        "APAAAAA",
+        "AAPAAAA",
+        "AAAPAAA",
+        "AAAA0AA",
+        "AAAAAPA",
+        "AAAAAAA"
+      ]
+    ]
+  },
+  {
+    "name": "Three plus one",
+    "description": "Has the highest priority.",
+    "type": "Defensive",
+    "variations": [
+      [
+        "YOOO0OY"
+      ],
+      [
+        "AAAAAAA",
+        "AOAAAAA",
+        "AAOAAAA",
+        "AAAOAAA",
+        "AAAA0AA",
+        "AAAAAOA",
+        "AAAAAAA"
+      ]
+    ]
+  }
+]

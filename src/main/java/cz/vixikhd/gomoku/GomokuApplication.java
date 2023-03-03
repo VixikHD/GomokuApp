@@ -13,16 +13,13 @@ import cz.vixikhd.gomoku.math.Vector2i;
 import javafx.application.Application;
 
 import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GomokuApplication extends Application {
     private static GomokuApplication instance;

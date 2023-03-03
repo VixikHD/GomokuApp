@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Open two in row",
+    "description": "Opens the game",
+    "type": "Offensive",
+    "variations": [
+      [
+        "32PP23"
+      ],
+      [
+        "3AAAAA",
+        "A2AAAA",
+        "AAPAAA",
+        "AAAPAA",
+        "AAAA2A",
+        "AAAAA3"
+      ]
+    ]
+  },
+  {
+    "name": "Open two in row",
+    "description": "Opens the game",
+    "type": "Defensive",
+    "variations": [
+      [
+        "32OO23"
+      ],
+      [
+        "3AAAAA",
+        "A2AAAA",
+        "AAOAAA",
+        "AAAOAA",
+        "AAAA2A",
+        "AAAAA3"
+      ]
+    ]
+  }
+]

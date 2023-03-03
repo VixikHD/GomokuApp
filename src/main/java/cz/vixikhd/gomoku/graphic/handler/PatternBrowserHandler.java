@@ -2,8 +2,8 @@ package cz.vixikhd.gomoku.graphic.handler;
 
 import cz.vixikhd.gomoku.GomokuApplication;
 import cz.vixikhd.gomoku.game.Symbol;
-import cz.vixikhd.gomoku.game.grid.pattern.Pattern;
-import cz.vixikhd.gomoku.game.grid.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.Pattern;
+import cz.vixikhd.gomoku.game.pattern.PatternManager;
 import cz.vixikhd.gomoku.graphic.Board;
 import cz.vixikhd.gomoku.graphic.SmallButton;
 import cz.vixikhd.gomoku.math.Vector2i;

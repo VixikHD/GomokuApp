@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Open three in row",
+    "description": "Has the second highest priority.",
+    "type": "Offensive",
+    "variations": [
+      [
+        "1PPP1"
+      ],
+      [
+        "1AAAA",
+        "APAAA",
+        "AAPAA",
+        "AAAPA",
+        "AAAA1"
+      ]
+    ]
+  },
+  {
+    "name": "Open three in row",
+    "description": "Has the second highest priority.",
+    "type": "Defensive",
+    "variations": [
+      [
+        "1OOO1"
+      ],
+      [
+        "1AAAA",
+        "AOAAA",
+        "AAOAA",
+        "AAAOA",
+        "AAAA1"
+      ]
+    ]
+  }
+]

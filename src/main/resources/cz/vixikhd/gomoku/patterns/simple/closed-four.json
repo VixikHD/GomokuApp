@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Closed four in a row",
+    "description": "Has the highest priority.",
+    "type": "Offensive",
+    "variations": [
+      [
+        "OPPPP0"
+      ],
+      [
+        "OAAAAA",
+        "APAAAA",
+        "AAPAAA",
+        "AAAPAA",
+        "AAAAPA",
+        "AAAAA0"
+      ]
+    ]
+  },
+  {
+    "name": "Closed four in a row",
+    "description": "Has the highest priority.",
+    "type": "Defensive",
+    "variations": [
+      [
+        "POOOO0"
+      ],
+      [
+        "PAAAAA",
+        "AOAAAA",
+        "AAOAAA",
+        "AAAOAA",
+        "AAAAOA",
+        "AAAAA0"
+      ]
+    ]
+  }
+]

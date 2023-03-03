@@ -3,7 +3,7 @@ package cz.vixikhd.gomoku.game;
 import cz.vixikhd.gomoku.GomokuApplication;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
-import cz.vixikhd.gomoku.game.grid.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.PatternManager;
 import cz.vixikhd.gomoku.game.player.Player;
 import cz.vixikhd.gomoku.math.Vector2i;
 

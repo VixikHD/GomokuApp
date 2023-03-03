@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Two plus two",
+    "description": "Has the highest priority.",
+    "type": "Offensive",
+    "variations": [
+      [
+        "PP0PP"
+      ],
+      [
+        "PAAAA",
+        "APAAA",
+        "AA0AA",
+        "AAAPA",
+        "AAAAP"
+      ]
+    ]
+  },
+  {
+    "name": "Two plus two",
+    "description": "Has the highest priority.",
+    "type": "Defensive",
+    "variations": [
+      [
+        "OO0OO"
+      ],
+      [
+        "OAAAA",
+        "AOAAA",
+        "AA0AA",
+        "AAAOA",
+        "AAAAO"
+      ]
+    ]
+  }
+]

@@ -2,7 +2,7 @@ package cz.vixikhd.gomoku.game.grid;
 
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
-import cz.vixikhd.gomoku.game.grid.pattern.Pattern;
+import cz.vixikhd.gomoku.game.pattern.Pattern;
 import cz.vixikhd.gomoku.math.Vector2i;
 
 import java.util.*;

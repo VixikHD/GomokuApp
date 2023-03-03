@@ -5,7 +5,7 @@ import cz.vixikhd.gomoku.game.SituatedSymbol;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
-import cz.vixikhd.gomoku.game.grid.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.PatternManager;
 import cz.vixikhd.gomoku.game.strategy.PriorityCalculator;
 import cz.vixikhd.gomoku.math.Vector2i;
 

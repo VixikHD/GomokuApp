@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Two plus one",
+    "description": "Has the second highest priority.",
+    "type": "Offensive",
+    "variations": [
+      [
+        "NPP1PN"
+      ],
+      [
+        "NAAAAA",
+        "APAAAA",
+        "AAPAAA",
+        "AAA1AA",
+        "AAAAPA",
+        "AAAAAN"
+      ]
+    ]
+  },
+  {
+    "name": "Two plus one",
+    "description": "Has the second highest priority.",
+    "type": "Defensive",
+    "variations": [
+      [
+        "NOO1ON"
+      ],
+      [
+        "NAAAAA",
+        "AOAAAA",
+        "AAOAAA",
+        "AAA1AA",
+        "AAAAOA",
+        "AAAAAN"
+      ]
+    ]
+  }
+]

@@ -1,11 +1,26 @@
-package cz.vixikhd.gomoku.game.grid.pattern;
+package cz.vixikhd.gomoku.game.pattern;
 
+import com.google.gson.reflect.TypeToken;
+import cz.vixikhd.gomoku.GomokuApplication;
+import cz.vixikhd.gomoku.data.SimplePattern;
+import cz.vixikhd.gomoku.game.pattern.symbol.PatternParseException;
 import cz.vixikhd.gomoku.math.Vector2i;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class PatternManager {
+    final private static String RESOURCE_SIMPLE_PATH = "simple";
+    final private static String RESOURCE_MERGED_PATH = "merged";
+
     final private static List<Pattern> defensivePatterns = new ArrayList<>();
     final private static List<Pattern> offensivePatterns = new ArrayList<>();
 
@@ -14,73 +29,48 @@ public class PatternManager {
             return;
         }
 
-        PatternManager.loadDefensivePatterns();
-        PatternManager.loadOffensivePatterns();
+        try {
+            URL res = GomokuApplication.class.getResource("patterns/");
+            assert res != null;
+            File[] subdirectories = Paths.get(res.toURI()).toFile().listFiles(File::isDirectory);
+            if(subdirectories == null) {
+                throw new RuntimeException("Patterns ain't compiled with the program");
+            }
+
+            for(File dir : subdirectories) {
+                if(dir.getName().equals(RESOURCE_SIMPLE_PATH)) {
+                    loadSimplePatterns(dir.listFiles());
+                }
+            }
+        } catch (FileNotFoundException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+//        PatternManager.loadDefensivePatterns();
+//        PatternManager.loadOffensivePatterns();
+    }
+
+    private static void loadSimplePatterns(File[] patternFiles) throws FileNotFoundException {
+        System.out.println("Loading Simple patterns...");
+
+        Gson gson = new Gson();
+        for(File patternFile : patternFiles) {
+            List<SimplePattern> loadedPatterns = gson.fromJson(new FileReader(patternFile), new TypeToken<List<SimplePattern>>(){}.getType());
+            for(SimplePattern patternData : loadedPatterns) {
+                try {
+                    if(patternData.getType() == PatternType.OFFENSIVE) {
+                        PatternManager.offensivePatterns.addAll(patternData.toPattern());
+                    } else if(patternData.getType() == PatternType.DEFENSIVE){
+                        PatternManager.defensivePatterns.addAll(patternData.toPattern());
+                    }
+                } catch (PatternParseException e) {
+                    System.out.println("Error whilst loading pattern file " + patternFile.getName() + ": " + e.getMessage());
+                }
+            }
+        }
     }
     
     private static void loadDefensivePatterns() {
-        // Four in row, partially blocked
-        defensivePatterns.add(new Pattern("Closed Four In Row", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'O', 'O', 'O', 'O', '0'}
-        })));
-        defensivePatterns.add(new Pattern("Diagonal Closed Four In Row", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'P', 'A', 'A', 'A', 'A', 'A'},
-            {'A', 'O', 'A', 'A', 'A', 'A'},
-            {'A', 'A', 'O', 'A', 'A', 'A'},
-            {'A', 'A', 'A', 'O', 'A', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'A', '0'}
-        })));
-
-        // Three plus one
-        defensivePatterns.add(new Pattern("Three Plus One", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'O', 'O', '0' , 'O'}
-        })));
-        defensivePatterns.add(new Pattern("Diagonal Three Plus One", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'A', 'A', 'A', 'A'},
-            {'A', 'O', 'A', 'A', 'A'},
-            {'A', 'A', 'O', 'A', 'A'},
-            {'A', 'A', 'A', '0', 'A'},
-            {'A', 'A', 'A', 'A', 'O'}
-        })));
-
-        // Two plus two
-        defensivePatterns.add(new Pattern("Three Plus One", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'O', '0', 'O', 'O'}
-        })));
-        defensivePatterns.add(new Pattern("Diagonal Three Plus One", "Requires immediate block, expect the situation you already have half-open four.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'O', 'A', 'A', 'A', 'A'},
-            {'A', 'O', 'A', 'A', 'A'},
-            {'A', 'A', '0', 'A', 'A'},
-            {'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'O'}
-        })));
-
-        // Three in row
-        defensivePatterns.add(new Pattern("Open Three In Row", "Three in row requires block in the case you haven't opened three in the row already.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'1', 'O', 'O', 'O', '1'}
-        })));
-        // Three in row diagonally
-        defensivePatterns.add(new Pattern("Diagonal Open Three In Row", "Three in row requires block in the case you haven't opened three in the row already.", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'1', 'A', 'A', 'A', 'A'},
-            {'A', 'O', 'A', 'A', 'A'},
-            {'A', 'A', 'O', 'A', 'A'},
-            {'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', '1'}
-        })));
-
-        // Two plus one
-        defensivePatterns.add(new Pattern("Two Plus One", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'N', 'O', 'O', '1', 'O', 'N'}
-        })));
-        defensivePatterns.add(new Pattern("Diagonal Two Plus One", "Should be blocked", Pattern.PatternSymbol.parsePatternSymbolGrid(new char[][]{
-            {'N', 'A', 'A', 'A', 'A', 'A'},
-            {'A', 'O', 'A', 'A', 'A', 'A'},
-            {'A', 'A', 'O', 'A', 'A', 'A'},
-            {'A', 'A', 'A', '1', 'A', 'A'},
-            {'A', 'A', 'A', 'A', 'O', 'A'},
-            {'A', 'A', 'A', 'A', 'A', 'N'},
-        })));
 
         // ----------------------
         // Merged Patterns
