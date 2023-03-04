@@ -5,16 +5,14 @@
     "type": "Offensive",
     "variations": [
       [
-        "APPP0PA"
+        "PPP0P"
       ],
       [
-        "AAAAAAA",
-        "APAAAAA",
-        "AAPAAAA",
-        "AAAPAAA",
-        "AAAA0AA",
-        "AAAAAPA",
-        "AAAAAAA"
+        "PAAAA",
+        "APAAA",
+        "AAPAA",
+        "AAA0A",
+        "AAAAP"
       ]
     ]
   },
@@ -24,16 +22,15 @@
     "type": "Defensive",
     "variations": [
       [
-        "YOOO0OY"
+        "OOO0O"
       ],
       [
-        "AAAAAAA",
-        "AOAAAAA",
-        "AAOAAAA",
-        "AAAOAAA",
-        "AAAA0AA",
-        "AAAAAOA",
-        "AAAAAAA"
+
+        "OAAAA",
+        "AOAAA",
+        "AAOAA",
+        "AAA0A",
+        "AAAAO"
       ]
     ]
   }
