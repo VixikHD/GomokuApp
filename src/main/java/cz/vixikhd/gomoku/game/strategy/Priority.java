@@ -28,18 +28,18 @@ public class Priority {
     }
 
     public String toString() {
-        return "Priority(" + this.priority + ", " + (this.type.equals(Type.WIN_PRIORITY) ? "W" : "L") +  ")";
+        return "Priority(" + this.priority + ", " + (this.type.equals(Type.WIN) ? "W" : "L") +  ")";
     }
 
     public enum Type {
-        WIN_PRIORITY,
-        LOSE_PRIORITY;
+        WIN,
+        LOSE;
 
         public int compareWith(Type type) {
             if(this.equals(type)) {
                 return 0;
             }
-            if(this.equals(WIN_PRIORITY)) {
+            if(this.equals(WIN)) {
                 return -1;
             }
             return 1;

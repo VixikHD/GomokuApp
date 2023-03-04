@@ -1,7 +1,6 @@
 package cz.vixikhd.gomoku.data;
 
 import cz.vixikhd.gomoku.game.pattern.Pattern;
-import cz.vixikhd.gomoku.game.pattern.PatternType;
 import cz.vixikhd.gomoku.game.pattern.symbol.PatternParseException;
 import cz.vixikhd.gomoku.game.pattern.symbol.SymbolParser;
 
@@ -22,11 +21,11 @@ public class SimplePattern {
         return patterns;
     }
 
-    public PatternType getType() throws PatternParseException {
+    public Pattern.Type getType() throws PatternParseException {
         if(this.type.equals("Offensive")) {
-            return PatternType.OFFENSIVE;
+            return Pattern.Type.OFFENSIVE;
         } else if(this.type.equals("Defensive")) {
-            return PatternType.DEFENSIVE;
+            return Pattern.Type.DEFENSIVE;
         }
 
         throw new PatternParseException("Invalid pattern type " + this.type);

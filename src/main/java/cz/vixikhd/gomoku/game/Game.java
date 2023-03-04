@@ -22,7 +22,6 @@ public class Game extends Thread {
     private int moveNumber = 0;
 
     private boolean ended = false;
-    private Symbol winner = Symbol.NONE;
 
     public Game(GomokuApplication ui, Player[] players) {
         if(players.length != 2) {
@@ -79,7 +78,6 @@ public class Game extends Thread {
             }
 
             this.ended = true;
-            this.winner = winner;
 
             for(Vector2i pos : winRow) {
                 this.ui.requestSymbolHighlight(pos);
@@ -87,7 +85,7 @@ public class Game extends Thread {
 
             this.ui.requestShowQuitButton();
 
-            System.out.println("Game ended. Winner - " + this.winner);
+            System.out.println("Game ended. Winner - " + winner);
             return true;
         }
 

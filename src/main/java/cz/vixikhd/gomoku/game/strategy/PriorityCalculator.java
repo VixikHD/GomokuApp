@@ -1,7 +1,6 @@
 package cz.vixikhd.gomoku.game.strategy;
 
 import cz.vixikhd.gomoku.game.Game;
-import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.math.Vector2i;
 
@@ -17,12 +16,12 @@ public class PriorityCalculator {
         List<MoveWithPriority> possibleMoves = new ArrayList<>();
         for(Grid.MatchedPattern pattern : defensivePatterns) {
             for(Vector2i move : pattern.variation().getOutplayPositionList()) {
-                possibleMoves.add(new MoveWithPriority(pattern.start().addVector(move), new Priority(Priority.Type.LOSE_PRIORITY, pattern.variation().getSymbol(move).priority())));
+                possibleMoves.add(new MoveWithPriority(pattern.start().addVector(move), new Priority(Priority.Type.LOSE, pattern.variation().getSymbol(move).priority())));
             }
         }
         for(Grid.MatchedPattern pattern : offensivePatterns) {
             for(Vector2i move : pattern.variation().getOutplayPositionList()) {
-                possibleMoves.add(new MoveWithPriority(pattern.start().addVector(move), new Priority(Priority.Type.WIN_PRIORITY, pattern.variation().getSymbol(move).priority())));
+                possibleMoves.add(new MoveWithPriority(pattern.start().addVector(move), new Priority(Priority.Type.WIN, pattern.variation().getSymbol(move).priority())));
             }
         }
 
