@@ -4,6 +4,7 @@ import cz.vixikhd.gomoku.GomokuApplication;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.pattern.Pattern;
 import cz.vixikhd.gomoku.game.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.symbol.PatternSymbol;
 import cz.vixikhd.gomoku.graphic.Board;
 import cz.vixikhd.gomoku.graphic.SmallButton;
 import cz.vixikhd.gomoku.math.Vector2i;
@@ -62,7 +63,7 @@ public class PatternBrowserHandler {
 
         HBox box = new HBox(20);
         for(Pattern.PatternVariation variation : pattern.getVariations()) {
-            Pattern.PatternSymbol[][] symbols = variation.getSymbols();
+            PatternSymbol[][] symbols = variation.getSymbols();
             if(symbols.length > height) {
                 height = symbols.length;
             }
@@ -70,11 +71,11 @@ public class PatternBrowserHandler {
             Board board = new Board(new Vector2i(symbols[0].length, symbols.length), 30, 5, null);
             for(int y = 0; y < symbols.length; ++y) {
                 for(int x = 0; x < symbols[y].length; ++x) {
-                    if(symbols[y][x].type().equals(Pattern.PatternSymbolType.SYMBOL_PLAYER)) {
+                    if(symbols[y][x].type().equals(PatternSymbol.Type.SYMBOL_PLAYER)) {
                         board.setSymbolAt(x, y, Symbol.X);
-                    } else if(symbols[y][x].type().equals(Pattern.PatternSymbolType.SYMBOL_OPPONENT)) {
+                    } else if(symbols[y][x].type().equals(PatternSymbol.Type.SYMBOL_OPPONENT)) {
                         board.setSymbolAt(x, y, Symbol.O);
-                    } else if(symbols[y][x].type().equals(Pattern.PatternSymbolType.PLACE_FOR_OUTPLAY)) {
+                    } else if(symbols[y][x].type().equals(PatternSymbol.Type.PLACE_FOR_OUTPLAY)) {
                         board.setSymbolAt(x, y, Symbol.X);
                         board.setCellHighlightedAt(x, y);
                     }

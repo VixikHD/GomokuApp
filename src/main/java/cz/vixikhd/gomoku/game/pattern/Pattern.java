@@ -1,11 +1,7 @@
 package cz.vixikhd.gomoku.game.pattern;
 
-import cz.vixikhd.gomoku.game.Symbol;
-import cz.vixikhd.gomoku.graphic.Board;
+import cz.vixikhd.gomoku.game.pattern.symbol.PatternSymbol;
 import cz.vixikhd.gomoku.math.Vector2i;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -183,7 +179,7 @@ public class Pattern {
         private void calculateOutplayPositionList() {
             for(int y = 0; y < this.symbols.length; ++y) {
                 for(int x = 0; x < this.symbols[y].length; ++x) {
-                    if(this.symbols[y][x].type().equals(PatternSymbolType.PLACE_FOR_OUTPLAY))
+                    if(this.symbols[y][x].type().equals(PatternSymbol.Type.PLACE_FOR_OUTPLAY))
                         this.outplayPositionList.add(new Vector2i(x, y));
                 }
             }
