@@ -1,19 +1,18 @@
 [
   {
     "name": "Open four in row",
-    "description": "Has the second highest priority.",
+    "description": "Has the highest priority.",
     "type": "Offensive",
     "variations": [
       [
         "0PPPP0"
       ],
       [
-        "0AAAAA",
-        "APAAAA",
-        "AAPAAA",
-        "AAAPAA",
-        "AAAAPA",
-        "AAAAAP"
+        "0AAAA",
+        "APAAA",
+        "AAPAA",
+        "AAAPA",
+        "AAAAP"
       ]
     ]
   }
