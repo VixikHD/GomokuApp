@@ -19,6 +19,10 @@ public class ComputerPlayer extends Player {
         super(symbol);
     }
 
+    /**
+     * This method is here to find the last empty cell. This strategy is mostly
+     * used at end of the game, when most of the cells are used
+     */
     protected Vector2i doLeastMove(GridBrowser browser) {
         GridBrowser.Row[] rows = browser.extractHorizontalRows();
 
@@ -33,6 +37,9 @@ public class ComputerPlayer extends Player {
         return null;
     }
 
+    /**
+     * Finds a cell with most non-empty cells around
+     */
     protected Vector2i doBogoMove(Grid grid) {
         HashMap<Vector2i, Integer> cellsByPriority = new HashMap<>();
         for(int y = 0; y < Grid.GRID_SIZE; ++y) {
@@ -86,6 +93,12 @@ public class ComputerPlayer extends Player {
         return finalPosition;
     }
 
+    /**
+     * Attempts to match all known patterns. Afterwards, choose random pattern
+     * from the list of the patterns with the highest priority.
+     *
+     * @return Returns position of a symbol, or null, if there is no pattern matched
+     */
     protected Vector2i doPatternMove(Grid grid) {
         return PriorityCalculator.calculateBestMove(
             PatternManager.getDefensivePatterns().stream()

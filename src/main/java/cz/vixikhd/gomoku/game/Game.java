@@ -49,6 +49,8 @@ public class Game extends Thread {
     }
 
     /**
+     * Notifies player on move to proceed a move
+     *
      * @return Returns whether the game continues
      */
     private boolean play() {
