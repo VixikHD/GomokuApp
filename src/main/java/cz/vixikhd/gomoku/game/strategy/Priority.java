@@ -5,9 +5,6 @@ package cz.vixikhd.gomoku.game.strategy;
  * That means win has higher priority, than lose
  */
 public class Priority {
-    final public static Priority DEFENSIVE_PRIORITY = new Priority(Type.LOSE_PRIORITY, 1000);
-    final public static Priority OFFENSIVE_PRIORITY = new Priority(Type.WIN_PRIORITY, 1001);
-
     final private Type type;
     final private int priority;
 

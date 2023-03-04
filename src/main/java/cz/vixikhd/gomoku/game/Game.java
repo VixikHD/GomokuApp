@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Game extends Thread {
-    final private static Symbol[] SYMBOLS = {Symbol.X, Symbol.O};
-
     final private static Random random = new Random(System.currentTimeMillis());
 
     final private GomokuApplication ui;
@@ -39,11 +37,7 @@ public class Game extends Thread {
     public void run() {
         PatternManager.init();
 
-        while(true) {
-            if(!this.play()) {
-                break;
-            }
-
+        while(this.play()) {
             ++this.moveNumber;
         }
     }
@@ -55,7 +49,6 @@ public class Game extends Thread {
      */
     private boolean play() {
         Player playerOnMove = this.players[this.moveNumber & 1];
-        Player opponent = this.players[(this.moveNumber + 1) & 1];
 
         playerOnMove.requestMove(this, target -> {
             if(!this.grid.getSymbol(target).equals(Symbol.NONE)) {
@@ -67,31 +60,38 @@ public class Game extends Thread {
             // Update UI
             this.ui.requestBoardUpdate(target, playerOnMove.getSymbol());
 
-            List<Vector2i> winRow = new ArrayList<>();
-            Symbol winner = findFiveInRow(winRow);
-            if(!winner.equals(Symbol.NONE)) {
-                if(this.ended) {
-                    throw new RuntimeException("The game has already ended");
-                }
-
-                this.ended = true;
-                this.winner = winner;
-
-                for(Vector2i pos : winRow) {
-                    this.ui.requestSymbolHighlight(pos);
-                }
-
-                this.ui.requestShowQuitButton();
-
-                System.out.println("Game ended. Winner - " + this.winner);
+            if(this.testEnd())
                 return true;
-            }
 
             return true;
         });
 
-        // TODO
+        // TODO - Wtf is this
         return !this.ended;
+    }
+
+    private boolean testEnd() {
+        List<Vector2i> winRow = new ArrayList<>();
+        Symbol winner = findFiveInRow(winRow);
+        if(!winner.equals(Symbol.NONE)) {
+            if(this.ended) {
+                throw new RuntimeException("The game has already ended");
+            }
+
+            this.ended = true;
+            this.winner = winner;
+
+            for(Vector2i pos : winRow) {
+                this.ui.requestSymbolHighlight(pos);
+            }
+
+            this.ui.requestShowQuitButton();
+
+            System.out.println("Game ended. Winner - " + this.winner);
+            return true;
+        }
+
+        return false;
     }
 
     private Symbol findFiveInRow(List<Vector2i> symbols) {

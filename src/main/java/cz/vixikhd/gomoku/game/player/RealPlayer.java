@@ -7,6 +7,8 @@ import cz.vixikhd.gomoku.math.Vector2i;
 import java.util.function.Function;
 
 public class RealPlayer extends Player {
+    private static final int REFRESH_PLAYER_TIME = 1000 / 20; // Milliseconds
+
     public RealPlayer(Symbol symbol) {
         super(symbol);
     }
@@ -17,8 +19,8 @@ public class RealPlayer extends Player {
 
         do {
             try {
-                Thread.sleep(1000 / 20);
-            } catch (InterruptedException e) {}
+                Thread.sleep(REFRESH_PLAYER_TIME);
+            } catch (InterruptedException ignored) {}
 
             if(game.getUi().getLastBoardClickPos() == null) {
                 continue;
@@ -29,6 +31,6 @@ public class RealPlayer extends Player {
             }
 
             game.getUi().resetLastBoardClickPos();
-        } while (true);
+        } while(true);
     }
 }

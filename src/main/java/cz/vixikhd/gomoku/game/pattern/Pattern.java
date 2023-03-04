@@ -14,8 +14,7 @@ public class Pattern {
     final private String description;
 
     final private PatternSymbol[][] pattern;
-
-    final private List<PatternVariation> variations = new ArrayList<>();
+    final private List<PatternVariation> variations;
 
     public Pattern(String name, String description, PatternSymbol[][] pattern) {
         try {
@@ -28,29 +27,45 @@ public class Pattern {
         this.description = description;
         this.pattern = pattern;
 
-        // Base variation
-        this.variations.add(this.createPatternVariation(pattern.clone()));
-        // Flipped variations
-        this.variations.add(this.createPatternVariation(this.flipAroundX(pattern)));
-        this.variations.add(this.createPatternVariation(this.flipAroundY(pattern)));
-        this.variations.add(this.createPatternVariation(this.flipAroundX(this.flipAroundY(pattern))));
-
-        // Transposed variation
-        PatternSymbol[][] transposed = this.transpose(pattern);
-        this.variations.add(this.createPatternVariation(transposed));
-        // Flipped transposed variations
-        this.variations.add(this.createPatternVariation(this.flipAroundX(transposed)));
-        this.variations.add(this.createPatternVariation(this.flipAroundY(transposed)));
-        this.variations.add(this.createPatternVariation(this.flipAroundX(this.flipAroundY(transposed))));
-
-        // Removing duplicates
-        this.removeDuplicateVariations();
-
-//        this.debugDisplayVariations();
+        this.variations = new PatternTransform(pattern).generatePatternVariations();
     }
 
-    private PatternVariation createPatternVariation(PatternSymbol[][] symbols) {
-        return new PatternVariation(this.patternHash(symbols), symbols);
+    private void validatePattern(PatternSymbol[][] pattern) throws PatternValidationException {
+        if(pattern.length == 0) {
+            throw new PatternValidationException("Pattern must have at least one row");
+        }
+
+        int expectedLength = -1;
+        for(PatternSymbol[] patternSymbols : pattern) {
+            if(patternSymbols.length == 0) {
+                throw new PatternValidationException("Pattern must have at least one symbol in column");
+            }
+
+            if(expectedLength == -1) {
+                expectedLength = patternSymbols.length;
+                continue;
+            }
+
+            if(patternSymbols.length != expectedLength) {
+                throw new PatternValidationException("Pattern has not equally sized rows.");
+            }
+        }
+    }
+
+    public PatternSymbol[][] getPattern() {
+        return this.pattern;
+    }
+
+    public List<PatternVariation> getVariations() {
+        return this.variations;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     private void debugDisplayVariations() {
@@ -78,126 +93,8 @@ public class Pattern {
         stage.show();
     }
 
-    private void removeDuplicateVariations() {
-        Set<String> hashes = new HashSet<>();
-
-        List<PatternVariation> cleaned = new ArrayList<>();
-        for(PatternVariation variation : this.variations) {
-            if(hashes.contains(variation.getHash())) {
-                continue;
-            }
-
-            cleaned.add(variation);
-            hashes.add(variation.getHash());
-        }
-
-        this.variations.clear();
-        this.variations.addAll(cleaned);
-    }
-
-    private String patternHash(PatternSymbol[][] pattern) {
-        StringBuilder hash = new StringBuilder();
-        for(PatternSymbol[] patternSymbols : pattern) {
-            for(PatternSymbol patternSymbol : patternSymbols) {
-                hash.append(patternSymbol.type().getName());
-            }
-            hash.append("//");
-        }
-
-        return hash.toString();
-    }
-
-    private void validatePattern(PatternSymbol[][] pattern) throws PatternValidationException {
-        if(pattern.length == 0) {
-            throw new PatternValidationException("Pattern must have at least one row");
-        }
-
-        int expectedLength = -1;
-        for(PatternSymbol[] patternSymbols : pattern) {
-            if(patternSymbols.length == 0) {
-                throw new PatternValidationException("Pattern must have at least one symbol in column");
-            }
-
-            if(expectedLength == -1) {
-                expectedLength = patternSymbols.length;
-                continue;
-            }
-
-            if(patternSymbols.length != expectedLength) {
-                throw new PatternValidationException("Pattern has not equally sized rows.");
-            }
-        }
-    }
-
-    private PatternSymbol[][] transpose(PatternSymbol[][] pattern) {
-        int sizeX = pattern[0].length, sizeY = pattern.length;
-
-        PatternSymbol[][] transposedPattern = new PatternSymbol[sizeX][sizeY];
-        for(int y = 0; y < sizeY; ++y) {
-            for(int x = 0; x < sizeX; ++x) {
-                transposedPattern[x][y] = pattern[y][x];
-            }
-        }
-
-        return transposedPattern;
-    }
-
-    private PatternSymbol[][] flipAroundX(PatternSymbol[][] pattern) {
-        PatternSymbol[][] flippedPattern = new PatternSymbol[pattern.length][];
-        for(int rowNum = 0; rowNum < pattern.length; ++rowNum) {
-            PatternSymbol[] row = pattern[rowNum];
-            PatternSymbol[] flippedRow = new PatternSymbol[row.length];
-
-            for(int i = 0, j = row.length - 1; i <= j; ++i, --j) {
-                flippedRow[i] = row[j];
-                flippedRow[j] = row[i];
-            }
-
-            flippedPattern[rowNum] = flippedRow;
-        }
-
-        return flippedPattern;
-    }
-
-    private PatternSymbol[][] flipAroundY(PatternSymbol[][] pattern) {
-        PatternSymbol[][] flippedPattern = new PatternSymbol[pattern.length][];
-        for(int i = 0, j = pattern.length - 1; i <= j; ++i, --j) {
-            flippedPattern[i] = pattern[j].clone();
-            flippedPattern[j] = pattern[i].clone();
-        }
-
-        return flippedPattern;
-    }
-
-    public PatternSymbol[][] getPattern() {
-        return this.pattern;
-    }
-
-    public List<PatternVariation> getVariations() {
-        return this.variations;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
 
     public record PatternSymbol(PatternSymbolType type, int priority) {
-        /**
-         * Placeholders:
-         * <p></p>
-         * Player => P
-         * Opponent => O
-         * <p></p>
-         * None => N
-         * Any => A
-         * Not-Opponent => X
-         * <p></p>
-         * Place For Outplay => R
-         */
         public static PatternSymbol[][] parsePatternSymbolGrid(char[][] grid) {
             PatternSymbol[][] symbolGrid = new PatternSymbol[grid.length][];
             for(int y = 0; y < grid.length; ++y) {
@@ -273,13 +170,11 @@ public class Pattern {
     }
 
     public static class PatternVariation {
-        final private String hash;
         final private PatternSymbol[][] symbols;
 
         private final List<Vector2i> outplayPositionList = new ArrayList<>();
 
-        public PatternVariation(String hash, PatternSymbol[][] symbols) {
-            this.hash = hash;
+        public PatternVariation(PatternSymbol[][] symbols) {
             this.symbols = symbols;
 
             this.calculateOutplayPositionList();
@@ -308,10 +203,6 @@ public class Pattern {
 
         private boolean validateSymbolPosition(int x, int y) {
             return y >= 0 && y < this.symbols.length && x >= 0 && x < this.symbols[y].length;
-        }
-
-        public String getHash() {
-            return this.hash;
         }
 
         public PatternSymbol[][] getSymbols() {

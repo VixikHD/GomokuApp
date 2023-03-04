@@ -1,5 +1,6 @@
 package cz.vixikhd.gomoku.game.strategy;
 
+import cz.vixikhd.gomoku.game.Game;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.math.Vector2i;
@@ -25,16 +26,36 @@ public class PriorityCalculator {
             }
         }
 
-        possibleMoves.sort((a, b) -> a.priority.compareWith(b.priority));
+        Priority priority = possibleMoves.get(0).priority;
 
-        PriorityCalculator.displayPossibleMoves(possibleMoves);
+        List<MoveWithPriority> availableMoves = new ArrayList<>();
+        availableMoves.add(possibleMoves.get(0));
 
-        return possibleMoves.get(0).move;
+        for(int i = 1; i < possibleMoves.size(); ++i) {
+            MoveWithPriority move = possibleMoves.get(i);
+            int cmp = move.priority.compareWith(priority);
+            if(cmp < 0) {
+                availableMoves.clear();
+                availableMoves.add(move);
+                priority = move.priority;
+            } else if(cmp == 0) {
+                availableMoves.add(move);
+            }
+        }
+
+        PriorityCalculator.displayPossibleMoves(possibleMoves, availableMoves);
+
+        return availableMoves.get(Game.getRandom().nextInt(availableMoves.size())).move;
     }
 
-    private static void displayPossibleMoves(List<MoveWithPriority> moves) {
+    private static void displayPossibleMoves(List<MoveWithPriority> possible, List<MoveWithPriority> available) {
         System.out.println("\\-----------------------------------------------------/");
-        for(MoveWithPriority move : moves) {
+        System.out.println("Possible:\n");
+        for(MoveWithPriority move : possible) {
+            System.out.println(move.move.toString() + ": Priority - " + (move.priority.toString()));
+        }
+        System.out.println("Filtered by priority:\n");
+        for(MoveWithPriority move : available) {
             System.out.println(move.move.toString() + ": Priority - " + (move.priority.toString()));
         }
         System.out.println("/-----------------------------------------------------\\");

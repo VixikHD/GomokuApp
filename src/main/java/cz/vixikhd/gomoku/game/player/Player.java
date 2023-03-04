@@ -13,9 +13,19 @@ public abstract class Player {
         this.symbol = symbol;
     }
 
+    /**
+     * @return Returns player's symbol
+     */
     public Symbol getSymbol() {
         return this.symbol;
     }
 
+    /**
+     * Requests a move from player. The move is given back through
+     * Function<Vector2i, Boolean>, where vector is position of a new symbol.
+     * Function returns whether the symbol was actually placed.
+     *
+     * @param targetPosRequestClosure (Vector2i) -> Bool
+     */
     public abstract void requestMove(Game game, Function<Vector2i, Boolean> targetPosRequestClosure);
 }
