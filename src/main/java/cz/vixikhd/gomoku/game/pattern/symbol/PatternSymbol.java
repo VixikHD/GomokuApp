@@ -13,7 +13,8 @@ public record PatternSymbol(PatternSymbol.Type type, int priority) {
         SYMBOL_ANY(3, 'A', new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}, new Symbol[] {Symbol.X, Symbol.O, Symbol.NONE, Symbol.BORDER}),
         SYMBOL_PLAYER_NONE(4, 'X', new Symbol[] {Symbol.X, Symbol.NONE}, new Symbol[] {Symbol.O, Symbol.NONE}),
         SYMBOL_OPPONENT_NONE(5, 'Y', new Symbol[] {Symbol.O, Symbol.NONE}, new Symbol[] {Symbol.X, Symbol.NONE}),
-        PLACE_FOR_OUTPLAY(6, 'R', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE});
+        PLACE_FOR_OUTPLAY(6, 'R', new Symbol[] {Symbol.NONE}, new Symbol[] {Symbol.NONE}),
+        MERGE_SYMBOL(7, '$', new Symbol[]{}, new Symbol[]{});
 
         final private int id;
         final private char name;

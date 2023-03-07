@@ -34,7 +34,7 @@ public class Game extends Thread {
     }
 
     public void run() {
-        PatternManager.init();
+        PatternManager.lazyInit();
 
         while(this.play()) {
             ++this.moveNumber;

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Three plus three",
+    "description": "After placing symbol at a specified cell, the pattern become a new open four",
+    "type": "Offensive",
+    "priority": 1,
+    "allowTranspose": true,
+    "allowSlope": true,
+    "partA": [
+      [
+        "$PPP"
+      ],
+      [
+        "P$PP"
+      ]
+    ],
+    "partB": [
+      [
+        "$PPP"
+      ],
+      [
+        "P$PP"
+      ]
+    ]
+  },
+  {
+    "name": "Two plus two",
+    "description": "After placing symbol at a specified cell, the pattern become a new open four",
+    "type": "Defensive",
+    "priority": 1,
+    "allowTranspose": true,
+    "allowSlope": true,
+    "partA": [
+      [
+        "$OOO"
+      ],
+      [
+        "O$OO"
+      ]
+    ],
+    "partB": [
+      [
+        "$OOO"
+      ],
+      [
+        "O$OO"
+      ]
+    ]
+  }
+]

@@ -3,6 +3,7 @@ package cz.vixikhd.gomoku.game.grid;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
 import cz.vixikhd.gomoku.game.pattern.Pattern;
+import cz.vixikhd.gomoku.game.pattern.PatternVariation;
 import cz.vixikhd.gomoku.game.pattern.symbol.PatternSymbol;
 import cz.vixikhd.gomoku.math.Vector2i;
 
@@ -41,7 +42,7 @@ public class Grid implements GridInterface {
     public List<Grid.MatchedPattern> matchPattern(Symbol player, Pattern pattern) {
         List<Grid.MatchedPattern> matchedVariations = new ArrayList<>();
 
-        for(Pattern.PatternVariation variation : pattern.getVariations()) {
+        for(PatternVariation variation : pattern.getVariations()) {
             PatternSymbol[][] symbols = variation.getSymbols();
             int sizeX = symbols[0].length, sizeY = symbols.length;
 
@@ -138,5 +139,5 @@ public class Grid implements GridInterface {
         return grid;
     }
 
-    public record MatchedPattern(Vector2i start, Vector2i end, Pattern.PatternVariation variation) {}
+    public record MatchedPattern(Vector2i start, Vector2i end, PatternVariation variation) {}
 }

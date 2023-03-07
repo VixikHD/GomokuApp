@@ -1,29 +1,38 @@
 package cz.vixikhd.gomoku.game.pattern;
 
 import cz.vixikhd.gomoku.game.pattern.symbol.PatternSymbol;
-import cz.vixikhd.gomoku.math.Vector2i;
 
-import java.util.*;
+import java.util.List;
 
 public class Pattern {
+    final private Type type;
     final private String name;
     final private String description;
 
-    final private PatternSymbol[][] pattern;
     final private List<PatternVariation> variations;
 
-    public Pattern(String name, String description, PatternSymbol[][] pattern) {
-        try {
-            this.validatePattern(pattern);
-        } catch (PatternValidationException e) {
-            throw new IllegalArgumentException("Got invalid pattern", e);
+    final private String hash;
+
+    public Pattern(Pattern.Type type, String name, String description, List<PatternVariation> variations) {
+        if(variations.isEmpty()) {
+            throw new IllegalArgumentException("Invalid argument given. List of variations must not be empty.");
         }
 
+        this.type = type;
         this.name = name;
         this.description = description;
-        this.pattern = pattern;
+        this.variations = variations;
 
-        this.variations = new PatternTransform(pattern).generatePatternVariations();
+        String hash = null, anotherHash;
+        for(PatternVariation variation : variations) {
+            if(hash == null) {
+                hash = PatternVariation.symbolHash(variation.getSymbols());
+            } else if(hash.compareTo(anotherHash = PatternVariation.symbolHash(variation.getSymbols())) < 0) {
+                hash = anotherHash;
+            }
+        }
+
+        this.hash = hash;
     }
 
     private void validatePattern(PatternSymbol[][] pattern) throws PatternValidationException {
@@ -48,12 +57,12 @@ public class Pattern {
         }
     }
 
-    public PatternSymbol[][] getPattern() {
-        return this.pattern;
-    }
-
     public List<PatternVariation> getVariations() {
         return this.variations;
+    }
+
+    public Pattern.Type getType() {
+        return this.type;
     }
 
     public String getName() {
@@ -64,53 +73,12 @@ public class Pattern {
         return this.description;
     }
 
+    public String getPatternHash() {
+        return this.hash;
+    }
+
     public enum Type {
         OFFENSIVE,
         DEFENSIVE
-    }
-
-    public static class PatternVariation {
-        final private PatternSymbol[][] symbols;
-
-        private final List<Vector2i> outplayPositionList = new ArrayList<>();
-
-        public PatternVariation(PatternSymbol[][] symbols) {
-            this.symbols = symbols;
-
-            this.calculateOutplayPositionList();
-        }
-
-        private void calculateOutplayPositionList() {
-            for(int y = 0; y < this.symbols.length; ++y) {
-                for(int x = 0; x < this.symbols[y].length; ++x) {
-                    if(this.symbols[y][x].type().equals(PatternSymbol.Type.PLACE_FOR_OUTPLAY))
-                        this.outplayPositionList.add(new Vector2i(x, y));
-                }
-            }
-        }
-
-        public PatternSymbol getSymbol(Vector2i position) {
-            return this.getSymbolAt(position.getX(), position.getY());
-        }
-
-        public PatternSymbol getSymbolAt(int x, int y) {
-            if(!this.validateSymbolPosition(x, y)) {
-                throw new IllegalArgumentException("Coordinates are out of bounds");
-            }
-
-            return this.symbols[y][x];
-        }
-
-        private boolean validateSymbolPosition(int x, int y) {
-            return y >= 0 && y < this.symbols.length && x >= 0 && x < this.symbols[y].length;
-        }
-
-        public PatternSymbol[][] getSymbols() {
-            return this.symbols;
-        }
-
-        public List<Vector2i> getOutplayPositionList() {
-            return this.outplayPositionList;
-        }
     }
 }

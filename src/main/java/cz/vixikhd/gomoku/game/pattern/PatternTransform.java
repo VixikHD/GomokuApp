@@ -15,63 +15,70 @@ public class PatternTransform {
      * Generates list of unique pattern variations by transposing and flipping the symbols
      * By transposing and flipping the variation it is also possible to rotate it
      */
-    public List<Pattern.PatternVariation> generatePatternVariations() {
+    public List<PatternVariation> generatePatternVariations() {
+        return this.generatePatternVariations(new ArrayList<>());
+    }
+
+    public List<PatternVariation> generatePatternVariations(List<String> excludedHashes) {
         // Hash map creates hash from hash, which means two different hashes may be considered the same
-        // And some variations may be lost
-        List<String> hashes = new ArrayList<>();
-        List<Pattern.PatternVariation> variations = new ArrayList<>();
+        // And some variations may be lost. That's why HashMap is not used.
+
+        List<PatternVariation> variations = new ArrayList<>();
         
         PatternSymbol[][] tempVariation;
         String tempHash;
 
         // Base variation
         tempVariation = original.clone();
-        hashes.add(this.patternHash(tempVariation));
-        variations.add(new Pattern.PatternVariation(tempVariation));
+        tempHash = PatternVariation.symbolHash(tempVariation);
+        if(!excludedHashes.contains(tempHash)) {
+            excludedHashes.add(PatternVariation.symbolHash(tempVariation));
+            variations.add(new PatternVariation(tempVariation));
+        }
         
         // Flipped variations
-        this.generateFlippedVariations(hashes, variations, original);
+        this.generateFlippedVariations(excludedHashes, variations, original);
 
         // Transposed variation
-        PatternSymbol[][] transposed = this.transpose(original);
+        PatternSymbol[][] transposed = PatternTransform.transpose(original);
 
         tempVariation = transposed;
-        tempHash = this.patternHash(tempVariation);
-        if(!hashes.contains(tempHash)) {
-            hashes.add(tempHash);
-            variations.add(new Pattern.PatternVariation(tempVariation));
+        tempHash = PatternVariation.symbolHash(tempVariation);
+        if(!excludedHashes.contains(tempHash)) {
+            excludedHashes.add(tempHash);
+            variations.add(new PatternVariation(tempVariation));
         }
 
         // Flipped transposed variations
-        this.generateFlippedVariations(hashes, variations, transposed);
+        this.generateFlippedVariations(excludedHashes, variations, transposed);
 
         return variations;
     }
 
-    private void generateFlippedVariations(List<String> hashes, List<Pattern.PatternVariation> variations, PatternSymbol[][] baseVariation) {
+    private void generateFlippedVariations(List<String> hashes, List<PatternVariation> variations, PatternSymbol[][] baseVariation) {
         PatternSymbol[][] tempVariation;
         String tempHash;
-        tempVariation = this.flipAroundX(baseVariation);
-        tempHash = this.patternHash(tempVariation);
+        tempVariation = PatternTransform.flipAroundX(baseVariation);
+        tempHash = PatternVariation.symbolHash(tempVariation);
         if(!hashes.contains(tempHash)) {
             hashes.add(tempHash);
-            variations.add(new Pattern.PatternVariation(tempVariation));
+            variations.add(new PatternVariation(tempVariation));
         }
-        tempVariation = this.flipAroundY(baseVariation);
-        tempHash = this.patternHash(tempVariation);
+        tempVariation = PatternTransform.flipAroundY(baseVariation);
+        tempHash = PatternVariation.symbolHash(tempVariation);
         if(!hashes.contains(tempHash)) {
             hashes.add(tempHash);
-            variations.add(new Pattern.PatternVariation(tempVariation));
+            variations.add(new PatternVariation(tempVariation));
         }
-        tempVariation = this.flipAroundX(tempVariation);
-        tempHash = this.patternHash(tempVariation);
+        tempVariation = PatternTransform.flipAroundX(tempVariation);
+        tempHash = PatternVariation.symbolHash(tempVariation);
         if(!hashes.contains(tempHash)) {
             hashes.add(tempHash);
-            variations.add(new Pattern.PatternVariation(tempVariation));
+            variations.add(new PatternVariation(tempVariation));
         }
     }
 
-    private PatternSymbol[][] transpose(PatternSymbol[][] pattern) {
+    public static PatternSymbol[][] transpose(final PatternSymbol[][] pattern) {
         int sizeX = pattern[0].length, sizeY = pattern.length;
 
         PatternSymbol[][] transposedPattern = new PatternSymbol[sizeX][sizeY];
@@ -84,7 +91,7 @@ public class PatternTransform {
         return transposedPattern;
     }
 
-    private PatternSymbol[][] flipAroundX(PatternSymbol[][] pattern) {
+    public static PatternSymbol[][] flipAroundX(final PatternSymbol[][] pattern) {
         PatternSymbol[][] flippedPattern = new PatternSymbol[pattern.length][];
         for(int rowNum = 0; rowNum < pattern.length; ++rowNum) {
             PatternSymbol[] row = pattern[rowNum];
@@ -101,7 +108,7 @@ public class PatternTransform {
         return flippedPattern;
     }
 
-    private PatternSymbol[][] flipAroundY(PatternSymbol[][] pattern) {
+    public static PatternSymbol[][] flipAroundY(final PatternSymbol[][] pattern) {
         PatternSymbol[][] flippedPattern = new PatternSymbol[pattern.length][];
         for(int i = 0, j = pattern.length - 1; i <= j; ++i, --j) {
             flippedPattern[i] = pattern[j].clone();
@@ -109,17 +116,5 @@ public class PatternTransform {
         }
 
         return flippedPattern;
-    }
-
-    private String patternHash(PatternSymbol[][] pattern) {
-        StringBuilder hash = new StringBuilder();
-        for(PatternSymbol[] patternSymbols : pattern) {
-            for(PatternSymbol patternSymbol : patternSymbols) {
-                hash.append(patternSymbol.type().getName());
-            }
-            hash.append("//");
-        }
-
-        return hash.toString();
     }
 }

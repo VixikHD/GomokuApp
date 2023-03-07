@@ -5,15 +5,24 @@
     "type": "Offensive",
     "variations": [
       [
-        "32PP23"
+        "4PP4"
       ],
       [
-        "3AAAAA",
-        "A2AAAA",
+        "4AAA",
+        "APAA",
+        "AAPA",
+        "AAA4"
+      ],
+      [
+        "5NPPN5"
+      ],
+      [
+        "5AAAAA",
+        "ANAAAA",
         "AAPAAA",
         "AAAPAA",
-        "AAAA2A",
-        "AAAAA3"
+        "AAAANA",
+        "AAAAA5"
       ]
     ]
   },
@@ -23,15 +32,24 @@
     "type": "Defensive",
     "variations": [
       [
-        "32OO23"
+        "4OO4"
       ],
       [
-        "3AAAAA",
-        "A2AAAA",
+        "4AAA",
+        "AOAA",
+        "AAOA",
+        "AAA4"
+      ],
+      [
+        "5NOON5"
+      ],
+      [
+        "5AAAAA",
+        "ANAAAA",
         "AAOAAA",
         "AAAOAA",
-        "AAAA2A",
-        "AAAAA3"
+        "AAAANA",
+        "AAAAA5"
       ]
     ]
   }

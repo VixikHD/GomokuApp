@@ -6,6 +6,7 @@ import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
 import cz.vixikhd.gomoku.game.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.PatternMerger;
 import cz.vixikhd.gomoku.game.strategy.PriorityCalculator;
 import cz.vixikhd.gomoku.math.Vector2i;
 
@@ -100,7 +101,8 @@ public class ComputerPlayer extends Player {
      * @return Returns position of a symbol, or null, if there is no pattern matched
      */
     protected Vector2i doPatternMove(Grid grid) {
-        return PriorityCalculator.calculateBestMove(
+        double time = System.currentTimeMillis();
+        Vector2i move = PriorityCalculator.calculateBestMove(
             PatternManager.getDefensivePatterns().stream()
                 .map(pattern -> grid.matchPattern(this.getSymbol(), pattern))
                 .flatMap(List::stream)
@@ -111,6 +113,11 @@ public class ComputerPlayer extends Player {
                 .flatMap(List::stream)
                 .collect(Collectors.toList())
         );
+        time = (System.currentTimeMillis() - time) / 1000.0;
+
+        System.out.println("Attempted to match " + PatternManager.getRegisteredVariationCount() + " pattern variations " + (move != null ? "and found a target " : "") + "in " + time + " seconds");
+
+        return move;
     }
 
     protected Vector2i doMove(Grid grid) {

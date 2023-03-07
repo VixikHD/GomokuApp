@@ -4,6 +4,7 @@ import cz.vixikhd.gomoku.GomokuApplication;
 import cz.vixikhd.gomoku.game.Symbol;
 import cz.vixikhd.gomoku.game.pattern.Pattern;
 import cz.vixikhd.gomoku.game.pattern.PatternManager;
+import cz.vixikhd.gomoku.game.pattern.PatternVariation;
 import cz.vixikhd.gomoku.game.pattern.symbol.PatternSymbol;
 import cz.vixikhd.gomoku.graphic.Board;
 import cz.vixikhd.gomoku.graphic.SmallButton;
@@ -29,7 +30,7 @@ public class PatternBrowserHandler {
             return this.root;
         }
 
-        PatternManager.init();
+        PatternManager.lazyInit();
 
         VBox box = new VBox(20);
         box.setAlignment(Pos.CENTER);
@@ -62,7 +63,7 @@ public class PatternBrowserHandler {
         int height = 0;
 
         HBox box = new HBox(20);
-        for(Pattern.PatternVariation variation : pattern.getVariations()) {
+        for(PatternVariation variation : pattern.getVariations()) {
             PatternSymbol[][] symbols = variation.getSymbols();
             if(symbols.length > height) {
                 height = symbols.length;

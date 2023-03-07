@@ -8,6 +8,7 @@
   - 'A' stands for any symbol
   - '0-9' where to place next symbol, so currently there's no symbol
 
+# Simple patterns
 - Offensive pattern type example
 
 ```json
@@ -30,3 +31,8 @@
   ]
 }
 ```
+
+# Merged patterns
+- Symbols:
+  - All the symbols already mentioned works the same
+  - '$' position, where the pattern parts should match
