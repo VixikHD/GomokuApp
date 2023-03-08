@@ -8,18 +8,30 @@
     "allowSlope": true,
     "partA": [
       [
-        "$PPP"
+        "N$PPPO"
       ],
       [
-        "P$PP"
+        "O$PPPN"
+      ],
+      [
+        "NP$PPO"
+      ],
+      [
+        "OP$PPN"
       ]
     ],
     "partB": [
       [
-        "$PPP"
+        "N$PPPO"
       ],
       [
-        "P$PP"
+        "O$PPPN"
+      ],
+      [
+        "NP$PPO"
+      ],
+      [
+        "OP$PPN"
       ]
     ]
   },
@@ -32,18 +44,30 @@
     "allowSlope": true,
     "partA": [
       [
-        "$OOO"
+        "N$OOOP"
       ],
       [
-        "O$OO"
+        "P$OOON"
+      ],
+      [
+        "NO$OOP"
+      ],
+      [
+        "PO$OON"
       ]
     ],
     "partB": [
       [
-        "$OOO"
+        "N$OOOP"
       ],
       [
-        "O$OO"
+        "P$OOON"
+      ],
+      [
+        "NO$OOP"
+      ],
+      [
+        "PO$OON"
       ]
     ]
   }

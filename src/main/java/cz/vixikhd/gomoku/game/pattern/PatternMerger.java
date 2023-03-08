@@ -7,226 +7,238 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PatternMerger {
-    private static final PatternSymbol FILL_SYMBOL = new PatternSymbol(PatternSymbol.Type.SYMBOL_ANY, -1);
+	private static final PatternSymbol FILL_SYMBOL = new PatternSymbol(PatternSymbol.Type.SYMBOL_ANY, -1);
 
-    private final List<String> hashesA = new ArrayList<>();
-    private final List<PatternSymbol[][]> partsA = new ArrayList<>();
-    private final List<String> hashesB = new ArrayList<>();
-    private final List<PatternSymbol[][]> partsB = new ArrayList<>();
+	private final List<String> hashesA = new ArrayList<>();
+	private final List<PatternSymbol[][]> partsA = new ArrayList<>();
+	private final List<String> hashesB = new ArrayList<>();
+	private final List<PatternSymbol[][]> partsB = new ArrayList<>();
 
-    final private Pattern.Type patternType;
-    final private String patternName;
-    final private String patternDescription;
+	final private Pattern.Type patternType;
+	final private String patternName;
+	final private String patternDescription;
 
-    final private int priority;
+	final private int priority;
 
-    public PatternMerger(Pattern.Type type, String patternName, String patternDescription, int priority) {
-        this.patternType = type;
-        this.patternName = patternName;
-        this.patternDescription = patternDescription;
-        this.priority = priority;
-    }
-    
-    public void addPartA(PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
-        this.addPart(this.hashesA, this.partsA, symbols, allowTranspose, allowSlope);
-    }
-    public void addPartB(PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
-        this.addPart(this.hashesB, this.partsB, symbols, allowTranspose, allowSlope);
-    }
-    
-    private void addPart(final List<String> hashes, final List<PatternSymbol[][]> parts, PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
-        this.savePartVariation(hashes, parts, symbols);
+	public PatternMerger(Pattern.Type type, String patternName, String patternDescription, int priority) {
+		this.patternType = type;
+		this.patternName = patternName;
+		this.patternDescription = patternDescription;
+		this.priority = priority;
+	}
 
-        if(allowTranspose) {
-            PatternSymbol[][] transposed = this.generateTransposedPart(symbols);
-            this.savePartVariation(hashes, parts, transposed);
+	public void addPartA(PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
+		this.addPart(this.hashesA, this.partsA, symbols, allowTranspose, allowSlope);
+	}
 
-            if(allowSlope) {
-                this.savePartVariation(hashes, parts, this.generateSlopePart(transposed));
-            }
-        }
+	public void addPartB(PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
+		this.addPart(this.hashesB, this.partsB, symbols, allowTranspose, allowSlope);
+	}
 
-        if(allowSlope) {
-            PatternSymbol[][] slope = this.generateSlopePart(symbols);
-            this.savePartVariation(hashes, parts, slope);
-        }
-    }
+	private void addPart(final List<String> hashes, final List<PatternSymbol[][]> parts, PatternSymbol[][] symbols, boolean allowTranspose, boolean allowSlope) {
+		this.savePartVariation(hashes, parts, symbols);
 
-    private void savePartVariation(final List<String> hashes, final List<PatternSymbol[][]> parts, PatternSymbol[][] variation) {
-        String hash = PatternVariation.symbolHash(variation);
-        if(hashes.contains(hash)) {
-            return;
-        }
+		if (allowTranspose) {
+			PatternSymbol[][] transposed = this.generateTransposedPart(symbols);
+			this.savePartVariation(hashes, parts, transposed);
 
-        hashes.add(hash);
-        parts.add(variation);
-    }
+			if (allowSlope) {
+				this.savePartVariation(hashes, parts, this.generateSlopePart(transposed));
+			}
+		}
 
-    private PatternSymbol[][] generateTransposedPart(PatternSymbol[][] source) {
-        return PatternTransform.transpose(source);
-    }
+		if (allowSlope) {
+			PatternSymbol[][] slope = this.generateSlopePart(symbols);
+			this.savePartVariation(hashes, parts, slope);
+		}
+	}
 
-    private PatternSymbol[][] generateSlopePart(PatternSymbol[][] original) {
-        int offsetX = 0;
-        int sizeX = 0, sizeY = 0;
+	private void savePartVariation(final List<String> hashes, final List<PatternSymbol[][]> parts, PatternSymbol[][] variation) {
+		String hash = PatternVariation.symbolHash(variation);
+		if (hashes.contains(hash)) {
+			return;
+		}
 
-        int tmp;
-        for(int y = 0; y < original.length; ++y) {
-            for(int x = 0; x < original[y].length; ++x) {
-                tmp = x - y;
-                if(tmp < 0) {
-                    if(tmp < offsetX) {
-                        offsetX = tmp;
-                    }
-                } else {
-                    sizeX = Math.max(sizeX, Math.abs(x - y));
-                }
+		hashes.add(hash);
+		parts.add(variation);
+	}
 
-                sizeY = Math.max(sizeY, x + y);
-            }
-        }
+	private PatternSymbol[][] generateTransposedPart(PatternSymbol[][] source) {
+		return PatternTransform.transpose(source);
+	}
 
-        offsetX = -offsetX;
-        sizeX += offsetX;
+	private PatternSymbol[][] generateSlopePart(PatternSymbol[][] original) {
+		int offsetX = 0;
+		int sizeX = 0, sizeY = 0;
 
-        ++sizeX;
-        ++sizeY;
+		int tmp;
+		for (int y = 0; y < original.length; ++y) {
+			for (int x = 0; x < original[y].length; ++x) {
+				tmp = x - y;
+				if (tmp < 0) {
+					if (tmp < offsetX) {
+						offsetX = tmp;
+					}
+				} else {
+					sizeX = Math.max(sizeX, Math.abs(x - y));
+				}
 
-        PatternSymbol[][] slopePattern = new PatternSymbol[sizeY][sizeX];
+				sizeY = Math.max(sizeY, x + y);
+			}
+		}
 
-        for(int y = 0; y < sizeY; ++y) {
-            for(int x = 0; x < sizeX; ++x) {
-                slopePattern[y][x] = FILL_SYMBOL;
-            }
-        }
+		offsetX = -offsetX;
+		sizeX += offsetX;
 
-        for(int y = 0; y < original.length; ++y) {
-            for(int x = 0; x < original[y].length; ++x) {
-                slopePattern[x + y][offsetX + x - y] = original[y][x];
-            }
-        }
+		++sizeX;
+		++sizeY;
 
-        return slopePattern;
-    }
+		PatternSymbol[][] slopePattern = new PatternSymbol[sizeY][sizeX];
 
-    public List<Pattern> generatePatterns() {
-        // Debug
-//        int a = 0;
-//        for(PatternSymbol[][] symbols : this.parts) {
-//            System.out.println("--- == [ Part " + (a++) + " ] == ---");
-//
-//            for(PatternSymbol[] symbol : symbols) {
-//                for(PatternSymbol patternSymbol : symbol) {
-//                    System.out.print(patternSymbol.type().getName());
-//                }
-//                System.out.println();
-//            }
-//        }
+		for (int y = 0; y < sizeY; ++y) {
+			for (int x = 0; x < sizeX; ++x) {
+				slopePattern[y][x] = FILL_SYMBOL;
+			}
+		}
 
-        List<Pattern> generatedPatterns = new ArrayList<>();
+		for (int y = 0; y < original.length; ++y) {
+			for (int x = 0; x < original[y].length; ++x) {
+				slopePattern[x + y][offsetX + x - y] = original[y][x];
+			}
+		}
 
-        // Iterating over two different pattern parts
-        Pattern mergedPattern;
-        for(int i = 0, j = this.partsA.size(); i < j; ++i) {
-            for(int k = 0, l = this.partsB.size(); k < l; ++k) {
-                if(PatternVariation.symbolHash(this.partsA.get(i)).equals(PatternVariation.symbolHash(this.partsB.get(k)))) {
-                    continue;
-                }
+		return slopePattern;
+	}
 
-                mergedPattern = this.mergeParts(this.partsA.get(i), this.partsB.get(k), i, k);
-                if(mergedPattern != null)
-                    generatedPatterns.add(mergedPattern);
-            }
-        }
+	public List<Pattern> generatePatterns() {
+		// Debug
+		int a = 0;
+		for (PatternSymbol[][] symbols : this.partsA) {
+			System.out.println("--- == [ Part A " + (a++) + " ] == ---");
 
-        this.hashesA.clear();
-        this.partsA.clear();
-        this.hashesB.clear();
-        this.partsB.clear();
+			for (PatternSymbol[] symbol : symbols) {
+				for (PatternSymbol patternSymbol : symbol) {
+					System.out.print(patternSymbol.type().getName());
+				}
+				System.out.println();
+			}
+		}
+		int b = 0;
+		for (PatternSymbol[][] symbols : this.partsB) {
+			System.out.println("--- == [ Part B " + (b++) + " ] == ---");
 
-        return generatedPatterns;
-    }
+			for (PatternSymbol[] symbol : symbols) {
+				for (PatternSymbol patternSymbol : symbol) {
+					System.out.print(patternSymbol.type().getName());
+				}
+				System.out.println();
+			}
+		}
 
-    /**
-     * Merges two pattern parts into a new pattern
-     *
-     * @return Returns pattern merged from two parts or null, if the parts could not be merged
-     */
-    private Pattern mergeParts(PatternSymbol[][] partA, PatternSymbol[][] partB, int a, int b) {
-        Vector2i partAPos = null, partBPos = null;
+		List<Pattern> generatedPatterns = new ArrayList<>();
 
-        // Coordinates of the merge symbol after pattern merge
-        int mergeX = -1, mergeY = -1;
+		// Iterating over two different pattern parts
+		Pattern mergedPattern;
+		for (int i = 0, j = this.partsA.size(); i < j; ++i) {
+			for (int k = 0, l = this.partsB.size(); k < l; ++k) {
+				if (PatternVariation.symbolHash(this.partsA.get(i)).equals(PatternVariation.symbolHash(this.partsB.get(k)))) {
+					continue;
+				}
 
-        // Lookup for merge symbol in partA
-        for(int y = 0; y < partA.length; ++y) {
-            for(int x = 0; x < partA[y].length; ++x) {
-                if(partA[y][x].type().equals(PatternSymbol.Type.MERGE_SYMBOL)) {
-                    if(x > mergeX)
-                        mergeX = x;
-                    if(y > mergeY)
-                        mergeY = y;
+				mergedPattern = this.mergeParts(this.partsA.get(i), this.partsB.get(k), i, k);
+				if (mergedPattern != null)
+					generatedPatterns.add(mergedPattern);
+			}
+		}
 
-                    partAPos = new Vector2i(x, y);
-                }
-            }
-        }
+		this.hashesA.clear();
+		this.partsA.clear();
+		this.hashesB.clear();
+		this.partsB.clear();
 
-        // Lookup for merge symbol in partB
-        for(int y = 0; y < partB.length; ++y) {
-            for(int x = 0; x < partB[y].length; ++x) {
-                if(partB[y][x].type().equals(PatternSymbol.Type.MERGE_SYMBOL)) {
-                    if(x > mergeX)
-                        mergeX = x;
-                    if(y > mergeY)
-                        mergeY = y;
+		return generatedPatterns;
+	}
 
-                    partBPos = new Vector2i(x, y);
-                }
-            }
-        }
+	/**
+	 * Merges two pattern parts into a new pattern
+	 *
+	 * @return Returns pattern merged from two parts or null, if the parts could not be merged
+	 */
+	private Pattern mergeParts(PatternSymbol[][] partA, PatternSymbol[][] partB, int a, int b) {
+		Vector2i partAPos = null, partBPos = null;
 
-        assert partAPos != null;
-        assert partBPos != null;
+		// Coordinates of the merge symbol after pattern merge
+		int mergeX = -1, mergeY = -1;
 
-        // Dimension of merged pattern
-        int sizeX = Math.max(partAPos.getX(), partBPos.getX()) + Math.max(partA[0].length - partAPos.getX(), partB[0].length - partBPos.getX());
-        int sizeY = Math.max(partAPos.getY(), partBPos.getY()) + Math.max(partA.length - partAPos.getY(), partB.length - partBPos.getY());
+		// Lookup for merge symbol in partA
+		for (int y = 0; y < partA.length; ++y) {
+			for (int x = 0; x < partA[y].length; ++x) {
+				if (partA[y][x].type().equals(PatternSymbol.Type.MERGE_SYMBOL)) {
+					if (x > mergeX)
+						mergeX = x;
+					if (y > mergeY)
+						mergeY = y;
 
-        PatternSymbol[][] merged = new PatternSymbol[sizeY][sizeX];
-        for(int y = 0; y < sizeY; ++y) {
-            for(int x = 0; x < sizeX; ++x) {
-                merged[y][x] = FILL_SYMBOL;
-            }
-        }
+					partAPos = new Vector2i(x, y);
+				}
+			}
+		}
 
-        Vector2i motion = new Vector2i(mergeX, mergeY).subtractVector(partAPos);
+		// Lookup for merge symbol in partB
+		for (int y = 0; y < partB.length; ++y) {
+			for (int x = 0; x < partB[y].length; ++x) {
+				if (partB[y][x].type().equals(PatternSymbol.Type.MERGE_SYMBOL)) {
+					if (x > mergeX)
+						mergeX = x;
+					if (y > mergeY)
+						mergeY = y;
 
-        // Add partA to the merged pattern
-        for(int y = 0; y < partA.length; ++y) {
-            for(int x = 0; x < partA[y].length; ++x) {
-                merged[y + motion.getY()][x + motion.getX()] = partA[y][x];
-            }
-        }
+					partBPos = new Vector2i(x, y);
+				}
+			}
+		}
 
-        motion = new Vector2i(mergeX, mergeY).subtractVector(partBPos);
-        for(int y = 0; y < partB.length; ++y) {
-            for(int x = 0; x < partB[y].length; ++x) {
-                PatternSymbol currentSymbol = merged[y + motion.getY()][x + motion.getX()];
-                if(!currentSymbol.type().equals(PatternSymbol.Type.SYMBOL_ANY) && !currentSymbol.type().equals(partB[y][x].type())) {
-                    if(partB[y][x].type().equals(PatternSymbol.Type.SYMBOL_ANY)) {
-                        continue;
-                    }
+		assert partAPos != null;
+		assert partBPos != null;
 
-                    return null;
-                }
+		// Dimension of merged pattern
+		int sizeX = Math.max(partAPos.getX(), partBPos.getX()) + Math.max(partA[0].length - partAPos.getX(), partB[0].length - partBPos.getX());
+		int sizeY = Math.max(partAPos.getY(), partBPos.getY()) + Math.max(partA.length - partAPos.getY(), partB.length - partBPos.getY());
 
-                merged[y + motion.getY()][x + motion.getX()] = partB[y][x];
-            }
-        }
+		PatternSymbol[][] merged = new PatternSymbol[sizeY][sizeX];
+		for (int y = 0; y < sizeY; ++y) {
+			for (int x = 0; x < sizeX; ++x) {
+				merged[y][x] = FILL_SYMBOL;
+			}
+		}
 
-        merged[mergeY][mergeX] = new PatternSymbol(PatternSymbol.Type.PLACE_FOR_OUTPLAY, this.priority);
+		Vector2i motion = new Vector2i(mergeX, mergeY).subtractVector(partAPos);
 
-        return new Pattern(this.patternType, this.patternName, this.patternDescription + " " + a + "/" + b, new PatternTransform(merged).generatePatternVariations());
-    }
+		// Add partA to the merged pattern
+		for (int y = 0; y < partA.length; ++y) {
+			for (int x = 0; x < partA[y].length; ++x) {
+				merged[y + motion.getY()][x + motion.getX()] = partA[y][x];
+			}
+		}
+
+		motion = new Vector2i(mergeX, mergeY).subtractVector(partBPos);
+		for (int y = 0; y < partB.length; ++y) {
+			for (int x = 0; x < partB[y].length; ++x) {
+				PatternSymbol currentSymbol = merged[y + motion.getY()][x + motion.getX()];
+				if (!currentSymbol.type().equals(PatternSymbol.Type.SYMBOL_ANY) && !currentSymbol.type().equals(partB[y][x].type())) {
+					if (partB[y][x].type().equals(PatternSymbol.Type.SYMBOL_ANY)) {
+						continue;
+					}
+
+					return null;
+				}
+
+				merged[y + motion.getY()][x + motion.getX()] = partB[y][x];
+			}
+		}
+
+		merged[mergeY][mergeX] = new PatternSymbol(PatternSymbol.Type.PLACE_FOR_OUTPLAY, this.priority);
+
+		return new Pattern(this.patternType, this.patternName, this.patternDescription + " " + a + "/" + b, new PatternTransform(merged).generatePatternVariations());
+	}
 }

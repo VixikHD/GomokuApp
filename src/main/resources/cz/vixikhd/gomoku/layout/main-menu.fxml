@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vixikhd.gomoku.layout.control.MainMenuController">
+   <children>
+      <Button mnemonicParsing="false" onMouseClicked="#onStartGameClicked" stylesheets="@style/button.css" text="Start Game" />
+      <Button layoutX="284.0" layoutY="198.0" mnemonicParsing="false" onMouseClicked="#onBrowsePatternsClicked" stylesheets="@style/button.css" text="Browse Patterns" />
+      <Button layoutX="284.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#onCreditsClicked" stylesheets="@style/button.css" text="Credits" />
+   </children>
+</VBox>

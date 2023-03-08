@@ -1,0 +1,26 @@
+/*.button .text {*/
+/*    -fx-font-family: 'Rubik Mono One';*/
+/*    -fx-font-size: 30;*/
+/*}*/
+
+.button:hover {
+    -fx-background-color: rgb(193, 193, 193);
+    -fx-cursor: hand;
+}
+
+.button {
+    -fx-background-color: rgb(202, 202, 202);
+    -fx-text-fill: rgb(51, 51, 51);
+
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+
+    -fx-min-width: 500;
+    -fx-min-height: 100;
+    -fx-max-width: 500;
+    -fx-max-height: 100;
+
+    -fx-font-family: "Rubik Mono One";
+    -fx-font-size: 30;
+}

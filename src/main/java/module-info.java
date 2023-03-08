@@ -12,6 +12,9 @@ module cz.vixikhd.gomoku {
     exports cz.vixikhd.gomoku.game.pattern;
     exports cz.vixikhd.gomoku.game.player;
     exports cz.vixikhd.gomoku.game;
+    exports cz.vixikhd.gomoku.layout.control;
+    exports cz.vixikhd.gomoku.layout.scene;
+    exports cz.vixikhd.gomoku.layout;
     exports cz.vixikhd.gomoku.math;
     exports cz.vixikhd.gomoku;
 
@@ -23,4 +26,5 @@ module cz.vixikhd.gomoku {
     opens cz.vixikhd.gomoku.game.pattern to javafx.fxml;
     opens cz.vixikhd.gomoku.game.player to javafx.fxml;
     opens cz.vixikhd.gomoku.math to javafx.fxml;
+    opens cz.vixikhd.gomoku.layout to javafx.fxml;
 }

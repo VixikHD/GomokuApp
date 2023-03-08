@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Three plus two",
+    "description": "After placing symbol at a specified cell, the pattern become a new open three",
+    "type": "Offensive",
+    "priority": 1,
+    "allowTranspose": true,
+    "allowSlope": true,
+    "partA": [
+      [
+        "N$PPN"
+      ],
+      [
+        "N$NPPN"
+      ],
+      [
+        "N$PNPN"
+      ],
+      [
+        "NP$PN"
+      ],
+      [
+        "NP$NPN"
+      ]
+    ],
+    "partB": [
+      [
+        "N$PPPO"
+      ],
+      [
+        "O$PPPN"
+      ],
+      [
+        "NP$PPO"
+      ],
+      [
+        "OP$PPN"
+      ]
+    ]
+  },
+  {
+    "name": "Three plus two",
+    "description": "After placing symbol at a specified cell, the pattern become a new open three",
+    "type": "Defensive",
+    "priority": 2,
+    "allowTranspose": true,
+    "allowSlope": true,
+    "partA": [
+      [
+        "N$OON"
+      ],
+      [
+        "N$NOON"
+      ],
+      [
+        "N$ONON"
+      ],
+      [
+        "NO$ON"
+      ],
+      [
+        "NO$NON"
+      ]
+    ],
+    "partB": [
+      [
+        "N$OOOP"
+      ],
+      [
+        "P$OOON"
+      ],
+      [
+        "NO$OOP"
+      ],
+      [
+        "PO$OON"
+      ]
+    ]
+  }
+]
