@@ -5,7 +5,6 @@ import cz.vixikhd.gomoku.layout.control.GameController;
 import cz.vixikhd.gomoku.layout.element.Board;
 import cz.vixikhd.gomoku.layout.element.Button;
 import cz.vixikhd.gomoku.math.Vector2i;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 

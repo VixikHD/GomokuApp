@@ -55,10 +55,6 @@ public class Grid implements GridInterface {
 					matchesInRow.put(patternRow, this.matchPatternRow(player, this.grid[possibleStartY + patternRow], symbols[patternRow]));
 				}
 
-				// 0 1 6
-				// 6 7
-				// 0 2 6
-
 				List<Integer> variationMatches = matchesInRow.get(0);
 				for (int patternRow = 1; patternRow < matchesInRow.size(); ++patternRow) {
 					int finalPatternRow = patternRow;
@@ -142,6 +138,5 @@ public class Grid implements GridInterface {
 		return grid;
 	}
 
-	public record MatchedPattern(Vector2i start, Vector2i end, PatternVariation variation) {
-	}
+	public record MatchedPattern(Vector2i start, Vector2i end, PatternVariation variation) {}
 }
