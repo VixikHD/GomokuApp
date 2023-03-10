@@ -12,15 +12,15 @@
     -fx-background-color: rgb(202, 202, 202);
     -fx-text-fill: rgb(51, 51, 51);
 
-    -fx-padding: 5px;
-    -fx-border-insets: 5px;
-    -fx-background-insets: 5px;
+    -fx-padding: 2px;
+    -fx-border-insets: 2px;
+    -fx-background-insets: 2px;
 
-    -fx-min-width: 500;
-    -fx-min-height: 100;
-    -fx-max-width: 500;
-    -fx-max-height: 100;
+    -fx-min-width: 400;
+    -fx-min-height: 90;
+    -fx-max-width: 400;
+    -fx-max-height: 90;
 
     -fx-font-family: "Rubik Mono One";
-    -fx-font-size: 30;
+    -fx-font-size: 25;
 }

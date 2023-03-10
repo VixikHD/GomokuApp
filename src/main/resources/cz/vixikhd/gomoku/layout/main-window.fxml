@@ -4,12 +4,16 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <Image url="@../logo.png" />
-      </ImageView>
-   </top>
    <center>
       <fx:include source="main-menu.fxml" />
    </center>
+   <top>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../logo.png" />
+            </ImageView>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

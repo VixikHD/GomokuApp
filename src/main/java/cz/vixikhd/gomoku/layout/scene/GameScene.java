@@ -1,22 +1,22 @@
 package cz.vixikhd.gomoku.layout.scene;
 
-import cz.vixikhd.gomoku.layout.Board;
-import cz.vixikhd.gomoku.layout.control.BoardController;
+import cz.vixikhd.gomoku.layout.GameLayout;
+import cz.vixikhd.gomoku.layout.control.GameController;
 
 public class GameScene extends BaseScene {
-	protected Board board;
+	protected GameLayout pane;
 
-	public GameScene(Board board) {
-		this.board = board;
+	public GameScene(GameLayout pane) {
+		this.pane = pane;
 	}
 
 	@Override
-	public Board getPane() {
-		return this.board;
+	public GameLayout getPane() {
+		return this.pane;
 	}
 
 	@Override
-	public BoardController getController() {
-		return this.board.getController();
+	public GameController getController() {
+		return this.pane.getController();
 	}
 }

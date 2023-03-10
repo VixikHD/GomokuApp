@@ -1,7 +1,8 @@
 package cz.vixikhd.gomoku;
 
 import cz.vixikhd.gomoku.game.grid.Grid;
-import cz.vixikhd.gomoku.layout.Board;
+import cz.vixikhd.gomoku.layout.GameLayout;
+import cz.vixikhd.gomoku.layout.element.Board;
 import cz.vixikhd.gomoku.layout.scene.BaseScene;
 import cz.vixikhd.gomoku.layout.scene.GameScene;
 import cz.vixikhd.gomoku.layout.scene.MainMenuScene;
@@ -17,12 +18,10 @@ import java.io.IOException;
 final public class UserInterface {
 	private static final UserInterface instance = new UserInterface();
 
-	private static final int GRID_SIZE = Grid.GRID_SIZE;
-
 	private final BorderPane root;
 
 	public static final StaticScene MAIN_MENU = new MainMenuScene("main-menu.fxml");
-	public static final GameScene GAME_GRID = new GameScene(new Board(new Vector2i(GRID_SIZE, GRID_SIZE)));
+	public static final GameScene GAME_GRID = new GameScene(new GameLayout());
 	public static final StaticScene PATTERN_BROWSER_MENU = new StaticScene("pattern-browser-menu.fxml");
 
 	private UserInterface() {

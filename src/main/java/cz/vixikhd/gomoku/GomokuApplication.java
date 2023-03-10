@@ -22,6 +22,7 @@ public class GomokuApplication extends Application {
 		stage.setTitle("Gomoku");
 		stage.getIcons().add(new Image(Objects.requireNonNull(GomokuApplication.class.getResourceAsStream("icon.png"))));
 		stage.setScene(new Scene(UserInterface.getInstance().getRootNode()));
+		stage.setMaximized(true);
 		stage.show();
 	}
 

@@ -33,7 +33,6 @@ public record PatternSymbol(PatternSymbol.Type type, int priority) {
 		public static Type parsePatternSymbol(char name) {
 			if (name >= '0' && name <= '9') {
 				return Type.PLACE_FOR_OUTPLAY;
-//                return Type.PLACE_FOR_OUTPLAY.setPriority(name - '0');
 			}
 
 			for (Type symbol : Type.class.getEnumConstants()) {

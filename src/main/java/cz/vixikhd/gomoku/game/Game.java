@@ -1,6 +1,5 @@
 package cz.vixikhd.gomoku.game;
 
-import cz.vixikhd.gomoku.GomokuApplication;
 import cz.vixikhd.gomoku.UserInterface;
 import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.game.grid.browser.GridBrowser;
@@ -22,6 +21,7 @@ public class Game extends Thread {
 
 	private int moveNumber = 0;
 
+	private boolean shutdown = false;
 	private boolean ended = false;
 
 	public Game(Player[] players) {
@@ -36,7 +36,7 @@ public class Game extends Thread {
 	public void run() {
 		PatternManager.lazyInit();
 
-		while (this.play()) {
+		while(!this.shutdown && this.play()) {
 			++this.moveNumber;
 		}
 	}
@@ -57,7 +57,7 @@ public class Game extends Thread {
 			// Update backend
 			this.grid.updateSymbol(target, playerOnMove.getSymbol());
 			// Update UI
-			Platform.runLater(() -> UserInterface.GAME_GRID.getPane().setSymbolAt(target.getX(), target.getY(), playerOnMove.getSymbol()));
+			Platform.runLater(() -> UserInterface.GAME_GRID.getPane().getBoard().setSymbolAt(target.getX(), target.getY(), playerOnMove.getSymbol()));
 
 			if (this.testEnd())
 				return true;
@@ -82,12 +82,11 @@ public class Game extends Thread {
 			// UI
 			Platform.runLater(() -> {
 				for(Vector2i pos : winRow) {
-					UserInterface.GAME_GRID.getPane().setCellHighlightedAt(pos.getX(), pos.getY());
-					UserInterface.GAME_GRID.getPane().setCellLockedAt(pos.getX(), pos.getY());
+					UserInterface.GAME_GRID.getPane().getBoard().setCellHighlightedAt(pos.getX(), pos.getY());
+					UserInterface.GAME_GRID.getPane().getBoard().setCellLockedAt(pos.getX(), pos.getY());
 				}
 
-				// TODO
-//            this.ui.requestShowQuitButton();
+				UserInterface.GAME_GRID.getPane().setPlayAgainButtonVisible(true);
 			});
 
 			System.out.println("Game ended. Winner - " + winner);
@@ -133,6 +132,10 @@ public class Game extends Thread {
 		}
 
 		return Symbol.NONE;
+	}
+
+	public void shutdown() {
+		this.shutdown = true;
 	}
 
 	public Grid getGrid() {

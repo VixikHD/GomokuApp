@@ -27,4 +27,6 @@ module cz.vixikhd.gomoku {
     opens cz.vixikhd.gomoku.game.player to javafx.fxml;
     opens cz.vixikhd.gomoku.math to javafx.fxml;
     opens cz.vixikhd.gomoku.layout to javafx.fxml;
+	exports cz.vixikhd.gomoku.layout.element;
+	opens cz.vixikhd.gomoku.layout.element to javafx.fxml;
 }

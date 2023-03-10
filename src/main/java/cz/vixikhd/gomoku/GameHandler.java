@@ -13,22 +13,48 @@ final public class GameHandler {
 
 	private GameHandler() {}
 
-	public boolean startGame() {
+	public void startGame() {
 		UserInterface.getInstance().setScene(UserInterface.GAME_GRID);
 
-		// Initialize game handler thread
+		this.startGameThread();
+	}
+
+	private void startGameThread() {
 		this.game = new Game(new Player[]{
-			new ComputerPlayer(Symbol.X),
-			new RealPlayer(Symbol.O)
+				new ComputerPlayer(Symbol.X),
+				new RealPlayer(Symbol.O)
 		});
 
 		this.game.setDaemon(true);
 		this.game.start();
+	}
 
-		return true;
+	public void shutdownGame() {
+		this.game.shutdown();
+
+		UserInterface.GAME_GRID.getPane().getBoard().resetBoard();
+
+		UserInterface.getInstance().setScene(UserInterface.MAIN_MENU);
+		UserInterface.GAME_GRID.getPane().setPlayAgainButtonVisible(false);
 	}
 
 	public static GameHandler getInstance() {
 		return GameHandler.instance;
+	}
+
+	public void restartGame() {
+		this.game.shutdown();
+		while(this.game.isAlive()) {
+			try {
+				Thread.sleep(1000 / 20);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		this.startGameThread();
+
+		UserInterface.GAME_GRID.getPane().getBoard().resetBoard();
+		UserInterface.GAME_GRID.getPane().setPlayAgainButtonVisible(false);
 	}
 }

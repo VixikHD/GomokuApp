@@ -1,8 +1,7 @@
-package cz.vixikhd.gomoku.layout;
+package cz.vixikhd.gomoku.layout.element;
 
 import cz.vixikhd.gomoku.game.Symbol;
-import cz.vixikhd.gomoku.layout.control.BoardController;
-import cz.vixikhd.gomoku.layout.element.Cell;
+import cz.vixikhd.gomoku.layout.control.GameController;
 import cz.vixikhd.gomoku.math.Vector2i;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
@@ -17,26 +16,22 @@ public class Board extends GridPane {
 	final private int cellSize;
 	final private int borderSize;
 
-	final private BoardController controller;
-
 	final private Cell[][] board;
 
-	public Board(Vector2i dimensions) {
-		this(dimensions, new BoardController());
+	final private GameController controller;
+
+	public Board(GameController controller, Vector2i dimensions) {
+		this(controller, dimensions, DEFAULT_CELL_SIZE, DEFAULT_BORDER_SIZE);
 	}
 
-	public Board(Vector2i dimensions, BoardController controller) {
-		this(dimensions, controller, DEFAULT_CELL_SIZE, DEFAULT_BORDER_SIZE);
-	}
-
-	public Board(Vector2i dimensions, BoardController controller, int cellSize, int borderSize) {
+	public Board(GameController controller, Vector2i dimensions, int cellSize, int borderSize) {
 		this.dimensions = dimensions;
 		this.cellSize = cellSize;
 		this.borderSize = borderSize;
 
-		this.controller = controller;
-
 		this.board = new Cell[dimensions.getY()][dimensions.getX()];
+
+		this.controller = controller;
 
 		this.init();
 	}
@@ -66,18 +61,16 @@ public class Board extends GridPane {
 		return new Cell(Symbol.NONE, event -> this.handleCellClick(new Vector2i(x, y), event), this.cellSize);
 	}
 
-	public BoardController getController() {
-		return this.controller;
-	}
-
 	private void handleCellClick(Vector2i position, MouseEvent event) {
 		this.controller.handleCellClicked(event, position);
 	}
 
-	public void clearBoard() {
+	public void resetBoard() {
 		for (int y = 0; y < this.dimensions.getY(); ++y) {
 			for (int x = 0; x < this.dimensions.getX(); ++x) {
 				this.setSymbolAt(x, y, Symbol.NONE);
+				this.setCellHighlightedAt(x, y, false);
+				this.setCellLockedAt(x, y, false);
 			}
 		}
 	}
