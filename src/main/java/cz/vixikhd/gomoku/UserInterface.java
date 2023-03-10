@@ -1,13 +1,10 @@
 package cz.vixikhd.gomoku;
 
-import cz.vixikhd.gomoku.game.grid.Grid;
 import cz.vixikhd.gomoku.layout.GameLayout;
-import cz.vixikhd.gomoku.layout.element.Board;
 import cz.vixikhd.gomoku.layout.scene.BaseScene;
 import cz.vixikhd.gomoku.layout.scene.GameScene;
 import cz.vixikhd.gomoku.layout.scene.MainMenuScene;
 import cz.vixikhd.gomoku.layout.scene.StaticScene;
-import cz.vixikhd.gomoku.math.Vector2i;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +20,7 @@ final public class UserInterface {
 	public static final StaticScene MAIN_MENU = new MainMenuScene("main-menu.fxml");
 	public static final GameScene GAME_GRID = new GameScene(new GameLayout());
 	public static final StaticScene PATTERN_BROWSER_MENU = new StaticScene("pattern-browser-menu.fxml");
+	public static final StaticScene CREDITS = new StaticScene("credits.fxml");
 
 	private UserInterface() {
 		try {

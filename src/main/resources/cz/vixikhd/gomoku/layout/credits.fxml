@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="40.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vixikhd.gomoku.layout.control.CreditsController">
+   <children>
+      <Label stylesheets="@style/label.css" text="Created &amp; Designed by Vojtěch Stehlík" />
+      <Label layoutX="147.0" layoutY="192.0" stylesheets="@style/label.css" text="Tested by Patrik Cinert" />
+      <Label layoutX="97.0" layoutY="210.0" stylesheets="@style/label.css" text="Font Mono Rubik One by Hubert and Fisher" />
+      <Button mnemonicParsing="false" onMouseClicked="#onBackToMainMenuClicked" stylesheets="@style/button.css" text="Back to Main Menu" />
+   </children>
+</VBox>
