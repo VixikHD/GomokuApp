@@ -1,6 +1,6 @@
 [
   {
-    "name": "Closed four in a row",
+    "name": "Closed four",
     "description": "Has the highest priority.",
     "type": "Offensive",
     "variations": [
@@ -18,7 +18,7 @@
     ]
   },
   {
-    "name": "Closed four in a row",
+    "name": "Closed four",
     "description": "Has the highest priority.",
     "type": "Defensive",
     "variations": [

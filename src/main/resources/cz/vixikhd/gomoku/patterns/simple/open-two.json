@@ -1,6 +1,6 @@
 [
   {
-    "name": "Open two in row",
+    "name": "Open two",
     "description": "Opens the game",
     "type": "Offensive",
     "variations": [
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "name": "Open two in row",
+    "name": "Open two",
     "description": "Opens the game",
     "type": "Defensive",
     "variations": [

@@ -20,11 +20,15 @@ public class Board extends GridPane {
 
 	final private GameController controller;
 
-	public Board(GameController controller, Vector2i dimensions) {
-		this(controller, dimensions, DEFAULT_CELL_SIZE, DEFAULT_BORDER_SIZE);
+	public Board(Vector2i dimensions) {
+		this(dimensions, null);
 	}
 
-	public Board(GameController controller, Vector2i dimensions, int cellSize, int borderSize) {
+	public Board(Vector2i dimensions, GameController controller) {
+		this(dimensions, DEFAULT_CELL_SIZE, DEFAULT_BORDER_SIZE, controller);
+	}
+
+	public Board(Vector2i dimensions, int cellSize, int borderSize, GameController controller) {
 		this.dimensions = dimensions;
 		this.cellSize = cellSize;
 		this.borderSize = borderSize;
@@ -40,14 +44,14 @@ public class Board extends GridPane {
 		int sizeX = cellSize * dimensions.getX();
 		int sizeY = cellSize * dimensions.getY();
 
-		this.setMinSize(sizeX, sizeY);
-		this.setMaxSize(sizeX, sizeY);
+		this.setMinSize(sizeX + this.borderSize * 2 - 2, sizeY + this.borderSize * 2 - 2);
+		this.setMaxSize(sizeX + this.borderSize * 2 - 2, sizeY + this.borderSize * 2 - 2);
 
 		this.setBorder(new Border(new BorderStroke(
 				Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
 				new CornerRadii(5),
 				new BorderWidths(this.borderSize),
-				new Insets(-1, 1 - this.borderSize * 2, 1 - this.borderSize * 2, -1)
+				new Insets(-1, 1, 1, -1)
 		)));
 
 		for (int y = 0; y < dimensions.getY(); ++y) {
@@ -62,7 +66,8 @@ public class Board extends GridPane {
 	}
 
 	private void handleCellClick(Vector2i position, MouseEvent event) {
-		this.controller.handleCellClicked(event, position);
+		if(this.controller != null)
+			this.controller.handleCellClicked(event, position);
 	}
 
 	public void resetBoard() {

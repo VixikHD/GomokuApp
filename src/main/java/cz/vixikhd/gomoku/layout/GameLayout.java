@@ -28,7 +28,7 @@ public class GameLayout extends VBox {
 		buttons.getChildren().add(this.mainMenuButton = new Button("Back to Main Menu"));
 		buttons.getChildren().add(this.playAgainButton = new Button("Play Again"));
 
-		this.getChildren().add(this.board = new Board(this.controller = new GameController(), new Vector2i(GRID_SIZE, GRID_SIZE)));
+		this.getChildren().add(this.board = new Board(new Vector2i(GRID_SIZE, GRID_SIZE), this.controller = new GameController()));
 		this.getChildren().add(buttons);
 
 		this.mainMenuButton.setOnMouseClicked(this.controller::onMainMenuButtonClicked);

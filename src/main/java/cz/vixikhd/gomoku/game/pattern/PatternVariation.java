@@ -54,6 +54,14 @@ public class PatternVariation {
 		return y >= 0 && y < this.symbols.length && x >= 0 && x < this.symbols[y].length;
 	}
 
+	public Vector2i getDimensions() {
+		if(this.symbols.length == 0) {
+			return new Vector2i(0, 0);
+		}
+
+		return new Vector2i(this.symbols[0].length, this.symbols.length);
+	}
+
 	public PatternSymbol[][] getSymbols() {
 		return this.symbols;
 	}

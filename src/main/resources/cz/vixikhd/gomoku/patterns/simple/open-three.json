@@ -1,6 +1,6 @@
 [
   {
-    "name": "Open three in row",
+    "name": "Open three",
     "description": "Has the second highest priority.",
     "type": "Offensive",
     "variations": [
@@ -17,7 +17,7 @@
     ]
   },
   {
-    "name": "Open three in row",
+    "name": "Open three",
     "description": "Has the second highest priority.",
     "type": "Defensive",
     "variations": [

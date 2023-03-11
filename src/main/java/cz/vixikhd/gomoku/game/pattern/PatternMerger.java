@@ -111,30 +111,6 @@ public class PatternMerger {
 	}
 
 	public List<Pattern> generatePatterns() {
-		// Debug
-		int a = 0;
-		for (PatternSymbol[][] symbols : this.partsA) {
-			System.out.println("--- == [ Part A " + (a++) + " ] == ---");
-
-			for (PatternSymbol[] symbol : symbols) {
-				for (PatternSymbol patternSymbol : symbol) {
-					System.out.print(patternSymbol.type().getName());
-				}
-				System.out.println();
-			}
-		}
-		int b = 0;
-		for (PatternSymbol[][] symbols : this.partsB) {
-			System.out.println("--- == [ Part B " + (b++) + " ] == ---");
-
-			for (PatternSymbol[] symbol : symbols) {
-				for (PatternSymbol patternSymbol : symbol) {
-					System.out.print(patternSymbol.type().getName());
-				}
-				System.out.println();
-			}
-		}
-
 		List<Pattern> generatedPatterns = new ArrayList<>();
 
 		// Iterating over two different pattern parts
@@ -239,6 +215,6 @@ public class PatternMerger {
 
 		merged[mergeY][mergeX] = new PatternSymbol(PatternSymbol.Type.PLACE_FOR_OUTPLAY, this.priority);
 
-		return new Pattern(this.patternType, this.patternName, this.patternDescription + " " + a + "/" + b, new PatternTransform(merged).generatePatternVariations());
+		return new Pattern(this.patternType, this.patternName, this.patternDescription, new PatternTransform(merged).generatePatternVariations());
 	}
 }

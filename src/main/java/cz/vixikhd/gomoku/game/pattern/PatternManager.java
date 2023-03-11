@@ -13,9 +13,7 @@ import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PatternManager {
@@ -26,6 +24,8 @@ public class PatternManager {
 
 	final private static List<Pattern> registeredPatterns = new ArrayList<>();
 	final private static List<String> registeredPatternHash = new ArrayList<>();
+
+	final private static Map<String, PatternCategory> categories = new HashMap<>();
 
 	public static void lazyInit() {
 		if (PatternManager.initialized) {
@@ -87,18 +87,28 @@ public class PatternManager {
 		}
 	}
 
-	public static void registerPattern(Pattern pattern) {
+	private static boolean registerPattern(Pattern pattern) {
 		if (PatternManager.registeredPatternHash.contains(pattern.getPatternHash())) {
-			return;
+			return false;
 		}
 
 		PatternManager.registeredPatternHash.add(pattern.getPatternHash());
 		PatternManager.registeredPatterns.add(pattern);
+		return true;
 	}
 
-	public static void registerPatterns(Collection<Pattern> patterns) {
+	public static void registerPatterns(List<Pattern> patterns) {
 		for (Pattern pattern : patterns) {
-			PatternManager.registerPattern(pattern);
+			if(PatternManager.registerPattern(pattern)) {
+				if(PatternManager.categories.containsKey(pattern.getName())) {
+					PatternManager.categories.get(pattern.getName()).patterns().add(pattern);
+				} else {
+					PatternCategory category = new PatternCategory(pattern.getName(), pattern.getType(), new ArrayList<>());
+					category.patterns().add(pattern);
+
+					PatternManager.categories.put(pattern.getName(), category);
+				}
+			}
 		}
 	}
 
@@ -122,5 +132,9 @@ public class PatternManager {
 	@Deprecated
 	public static List<Pattern> getDefensivePatterns() {
 		return PatternManager.registeredPatterns.stream().filter(pattern -> pattern.getType().equals(Pattern.Type.DEFENSIVE)).collect(Collectors.toList());
+	}
+
+	public static Collection<PatternCategory> getCategories() {
+		return PatternManager.categories.values();
 	}
 }

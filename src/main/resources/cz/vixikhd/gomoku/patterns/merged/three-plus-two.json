@@ -28,13 +28,13 @@
         "N$PPPO"
       ],
       [
-        "O$PPPN"
-      ],
-      [
         "NP$PPO"
       ],
       [
         "OP$PPN"
+      ],
+      [
+        "OPPPN$"
       ]
     ]
   },
@@ -67,13 +67,13 @@
         "N$OOOP"
       ],
       [
-        "P$OOON"
-      ],
-      [
         "NO$OOP"
       ],
       [
         "PO$OON"
+      ],
+      [
+        "POOON$"
       ]
     ]
   }
