@@ -23,7 +23,7 @@ public class Cell extends StackPane {
 		this.hoverProperty().addListener((observable, oldValue, value) -> {
 			if (value) {
 				if (this.displayedSymbol == null && !this.hoverDisabled) {
-					this.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 1), null, null)));
+					this.setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230, 1), null, null)));
 				}
 			} else if (!this.hoverDisabled) {
 				this.setBackground(Background.EMPTY);

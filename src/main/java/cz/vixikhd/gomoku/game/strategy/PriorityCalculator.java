@@ -6,11 +6,12 @@ import cz.vixikhd.gomoku.math.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PriorityCalculator {
-	public static Vector2i calculateBestMove(List<Grid.MatchedPattern> defensivePatterns, List<Grid.MatchedPattern> offensivePatterns) {
+	public static Optional<Vector2i> calculateBestMove(List<Grid.MatchedPattern> defensivePatterns, List<Grid.MatchedPattern> offensivePatterns) {
 		if (defensivePatterns.isEmpty() && offensivePatterns.isEmpty()) {
-			return null;
+			return Optional.empty();
 		}
 
 		List<MoveWithPriority> possibleMoves = new ArrayList<>();
@@ -44,7 +45,7 @@ public class PriorityCalculator {
 
 		PriorityCalculator.displayPossibleMoves(possibleMoves, availableMoves);
 
-		return availableMoves.get(Game.getRandom().nextInt(availableMoves.size())).move;
+		return Optional.of(availableMoves.get(Game.getRandom().nextInt(availableMoves.size())).move);
 	}
 
 	private static void displayPossibleMoves(List<MoveWithPriority> possible, List<MoveWithPriority> available) {

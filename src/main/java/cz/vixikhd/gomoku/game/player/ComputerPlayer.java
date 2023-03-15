@@ -11,6 +11,7 @@ import cz.vixikhd.gomoku.math.Vector2i;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,24 +24,24 @@ public class ComputerPlayer extends Player {
 	 * This method is here to find the last empty cell. This strategy is mostly
 	 * used at end of the game, when most of the cells are used
 	 */
-	protected Vector2i doLeastMove(GridBrowser browser) {
+	protected Optional<Vector2i> doLeastMove(GridBrowser browser) {
 		GridBrowser.Row[] rows = browser.extractHorizontalRows();
 
 		for (GridBrowser.Row row : rows) {
 			for (SituatedSymbol symbol : row.symbols()) {
 				if (symbol.symbol().equals(Symbol.NONE)) {
-					return symbol.position();
+					return Optional.of(symbol.position());
 				}
 			}
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	/**
 	 * Finds a cell with most non-empty cells around
 	 */
-	protected Vector2i doBogoMove(Grid grid) {
+	protected Optional<Vector2i> doBogoMove(Grid grid) {
 		HashMap<Vector2i, Integer> cellsByPriority = new HashMap<>();
 		for (int y = 0; y < Grid.GRID_SIZE; ++y) {
 			for (int x = 0; x < Grid.GRID_SIZE; ++x) {
@@ -72,7 +73,7 @@ public class ComputerPlayer extends Player {
 		}
 
 		if (cellsByPriority.isEmpty()) {
-			return null;
+			return Optional.empty();
 		}
 
 		int maxPriority = -1;
@@ -90,7 +91,7 @@ public class ComputerPlayer extends Player {
 			}
 		}
 
-		return finalPosition;
+		return Optional.of(finalPosition);
 	}
 
 	/**
@@ -99,9 +100,9 @@ public class ComputerPlayer extends Player {
 	 *
 	 * @return Returns position of a symbol, or null, if there is no pattern matched
 	 */
-	protected Vector2i doPatternMove(Grid grid) {
+	protected Optional<Vector2i> doPatternMove(Grid grid) {
 		double time = System.currentTimeMillis();
-		Vector2i move = PriorityCalculator.calculateBestMove(
+		Optional<Vector2i> move = PriorityCalculator.calculateBestMove(
 				PatternManager.getDefensivePatterns().stream()
 						.map(pattern -> grid.matchPattern(this.getSymbol(), pattern))
 						.flatMap(List::stream)
@@ -114,7 +115,7 @@ public class ComputerPlayer extends Player {
 		);
 		time = (System.currentTimeMillis() - time) / 1000.0;
 
-		System.out.println("Attempted to match " + PatternManager.getRegisteredVariationCount() + " pattern variations " + (move != null ? "and found a target " : "") + "in " + time + " seconds");
+		System.out.println("Attempted to match " + PatternManager.getRegisteredVariationCount() + " pattern variations " + (move.isPresent() ? "and found a target " : "") + "in " + time + " seconds");
 
 		return move;
 	}
@@ -124,24 +125,25 @@ public class ComputerPlayer extends Player {
 			return grid.center();
 		}
 
-		Vector2i position;
-		if ((position = this.doPatternMove(grid)) != null) {
-			return position;
+		Optional<Vector2i> position;
+		if ((position = this.doPatternMove(grid)).isPresent()) {
+			return position.get();
 		}
 
-		if ((position = this.doBogoMove(grid)) != null) {
-			return position;
+		if ((position = this.doBogoMove(grid)).isPresent()) {
+			return position.get();
 		}
 
-		return this.doLeastMove(grid.getBrowser());
+		if((position = this.doLeastMove(grid.getBrowser())).isPresent()) {
+			return position.get();
+		}
+
+		throw new RuntimeException("The grid is full");
 	}
 
 	@Override
 	public void requestMove(Game game, Function<Vector2i, Boolean> targetPosRequestClosure) {
 		Vector2i target = this.doMove(game.getGrid());
-		if (target == null) {
-			throw new RuntimeException("Could not find move for the grid.");
-		}
 
 		if (!targetPosRequestClosure.apply(target)) {
 			throw new RuntimeException("Requested move for full grid.");
