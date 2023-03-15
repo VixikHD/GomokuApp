@@ -138,5 +138,16 @@ public class Grid implements GridInterface {
 		return grid;
 	}
 
+	public boolean isFull() {
+		for(int y = 0; y < Grid.GRID_SIZE; ++y) {
+			for(int x = 0; x < Grid.GRID_SIZE; ++x) {
+				if(this.grid[y][x].equals(Symbol.NONE)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public record MatchedPattern(Vector2i start, Vector2i end, PatternVariation variation) {}
 }

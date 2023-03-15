@@ -49,6 +49,12 @@ public class Game extends Thread {
 	private boolean play() {
 		Player playerOnMove = this.players[this.moveNumber & 1];
 
+		if(this.grid.isFull()) {
+			UserInterface.GAME_GRID.getPane().setPlayAgainButtonVisible(true);
+			this.ended = true;
+			return false;
+		}
+
 		playerOnMove.requestMove(this, target -> {
 			if (!this.grid.getSymbol(target).equals(Symbol.NONE)) {
 				return false;
@@ -65,7 +71,6 @@ public class Game extends Thread {
 			return true;
 		});
 
-		// TODO - Wtf is this
 		return !this.ended;
 	}
 
